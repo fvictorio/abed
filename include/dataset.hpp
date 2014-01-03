@@ -14,13 +14,18 @@ namespace abed {
     class DataPoint {
     public:
         // XXX hay otras opciones?
+        DataPoint () { labeled = false; }
         double diff (double y) const { return label - y; }
         int get_label () const { return label; }
+        void set_label (int l) { labeled = true; label = l; }
+        bool is_labeled () { return labeled; }
     protected:
         int label;
+        bool labeled;
     };
 
     class StaticDataPoint : public DataPoint {
+    friend class StaticDataSet;
     public:
         StaticDataPoint () {}
         StaticDataPoint (const std::vector<double>& f) : features(f) {}
@@ -46,8 +51,9 @@ namespace abed {
             this->read(is, data_fmt);
         }
         StaticDataSet (const char*, DATA_FMT = SSV);
-        unsigned int size () { return data_points.size(); }
+        unsigned int size () const { return data_points.size(); }
         const StaticDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
+        StaticDataPoint& operator[] (unsigned int i) { return data_points[i]; }
         void read (std::istream&, DATA_FMT);
     private:
         std::vector<StaticDataPoint> data_points;

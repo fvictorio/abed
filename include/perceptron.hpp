@@ -10,8 +10,11 @@ namespace abed {
 
     class Perceptron : public StaticClassifier {
     public:
-        Perceptron (unsigned int, double = 0.05);
-        virtual double train (const StaticDataSet&);
+        Perceptron (unsigned int, double learning_rate = 0.05);
+        virtual double train (const StaticDataSet& sds) {
+            return this->train(sds, 10, 0.05);
+        }
+        virtual double train (const StaticDataSet&, int max_it, double min_error = 0.05);
         virtual void classify (StaticDataSet&);
     private:
         unsigned int dimension;

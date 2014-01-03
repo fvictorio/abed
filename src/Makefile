@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -g
 LDFLAGS=
 SOURCES=main.cpp dataconverter.cpp dataset.cpp classifier.cpp perceptron.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
