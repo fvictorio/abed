@@ -12,6 +12,9 @@
 *.la
 *.a
 
+# Vim
+*swp
+
 # Doxygen
 Doxyfile
 doc

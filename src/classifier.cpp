@@ -1,10 +1,12 @@
 #include <cassert>
 #include "../include/classifier.hpp"
 
+//! @todo 
+//! - train for DynamicDataSet
+
 namespace abed {
 
     double StaticClassifier::train (const DynamicDataSet& dds) {
-        //TODO for point in ddp convert and train
         return 0.0;
     }
 

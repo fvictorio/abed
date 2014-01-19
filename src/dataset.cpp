@@ -5,17 +5,18 @@
 #include <limits>
 #include "../include/dataset.hpp"
 
+//! @todo
+//! - error check in StaticDataSet constructor
+//! - error check in istream reading
+
 namespace abed {
 
-    // TODO error check
     StaticDataSet::StaticDataSet (const char* filename, DATA_FMT data_fmt) {
         std::ifstream file_handler(filename);
         this->read(file_handler, data_fmt);
         file_handler.close();
     }
 
-    // TODO: error checking (with c++ errors or returning
-    // an int or enum)
     void StaticDataSet::read (std::istream& is, DATA_FMT data_fmt) {
         using std::string;
         using std::stringstream;

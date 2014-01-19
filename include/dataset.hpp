@@ -14,11 +14,8 @@ namespace abed {
     //! DataPoint abstracts the StaticDataPoint and
     //! DynamicDataPoint classes.
 
-    // XXX No se si esto va a quedar, depende de que tanto
-    // sentido tenga tener un DataPoint abstracto
     class DataPoint {
     public:
-        // XXX hay otras opciones?
         DataPoint () { labeled = false; }
         double diff (double y) const { return label - y; }
         int get_label () const { return label; }
@@ -69,8 +66,7 @@ namespace abed {
         virtual ~DataSet () {}
         virtual bool is_labeled () const = 0;
         virtual unsigned int size () const = 0;
-        //TODO todos estos const son necesarios?
-        virtual const DataPoint*const get_data_point (unsigned int) const = 0;
+        virtual const DataPoint* get_data_point (unsigned int) const = 0;
         virtual DataSet* clone () const = 0;
         virtual Type get_type () const = 0;
     };
@@ -92,7 +88,7 @@ namespace abed {
         const StaticDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
         StaticDataPoint& operator[] (unsigned int i) { return data_points[i]; }
         void read (std::istream&, DATA_FMT);
-        virtual const DataPoint*const get_data_point (unsigned int i) const { return &data_points[i]; }
+        virtual const DataPoint* get_data_point (unsigned int i) const { return &data_points[i]; }
         virtual bool is_labeled () const {
             for (unsigned int i = 0; i < data_points.size(); i++) {
                 if (!data_points[i].is_labeled()) return false;
@@ -123,7 +119,7 @@ namespace abed {
         virtual unsigned int size () const { return data_points.size(); }
         const DynamicDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
         void read (std::istream&, DATA_FMT);
-        virtual const DataPoint*const get_data_point (unsigned int i) const { return &data_points[i]; }
+        virtual const DataPoint* get_data_point (unsigned int i) const { return &data_points[i]; }
         virtual bool is_labeled () const {
             for (unsigned int i = 0; i < data_points.size(); i++) {
                 if (!data_points[i].is_labeled()) return false;

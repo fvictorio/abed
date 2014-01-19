@@ -1,5 +1,8 @@
 #include "../include/tester.hpp"
 
+//! @todo
+//! - Finish resubstitution method (add pertinent class variables)
+
 namespace abed {
 
     void Tester::resubstitution () {
@@ -20,7 +23,6 @@ namespace abed {
 
         delete data_set_temp;
 
-        //TODO do something with correct
     }
 
 }

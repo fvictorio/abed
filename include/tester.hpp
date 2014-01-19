@@ -5,6 +5,10 @@
 #include "classifier.hpp"
 #include "dataset.hpp"
 
+//! \todo
+//! - Constructor that takes Classifier& and DataSet& and calls
+//    the other constructor
+
 namespace abed {
 
     //! Tester class.
