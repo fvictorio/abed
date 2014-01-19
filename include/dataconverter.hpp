@@ -6,12 +6,20 @@
 
 namespace abed {
 
-    // XXX podrian ser funciones
+    //! Abstract class that converts datasets and datapoints.
+    //
+    //! The different derived classes of DataConverter provide
+    //! alternative ways of transforming static data into
+    //! dynamic data and vice versa.
+
     class DataConverter {
     public:
+        virtual ~DataConverter () {}
         virtual StaticDataSet d2s (const DynamicDataPoint&) = 0;
         virtual StaticDataSet d2s (const DynamicDataSet&) = 0;
     };
+
+    //! Transform data in a very simple way.
 
     class TrivialDataConverter : public DataConverter {
     public:

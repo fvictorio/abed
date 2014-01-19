@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cmath>
 #include "../include/perceptron.hpp"
 
 namespace abed {
@@ -31,7 +32,7 @@ namespace abed {
                     weights[i] += learning_rate * error * x[i];
                 }
 
-                total_error += error;
+                total_error += std::fabs(error);
             }
             total_error /= sds.size();
             if (total_error <= min_error) return total_error;

@@ -8,6 +8,11 @@
 
 namespace abed {
 
+    //! Simple perceptron implementation.
+    //
+    //! A simple algorithm used for classify data
+    //! that is linearly separable.
+
     class Perceptron : public StaticClassifier {
     public:
         Perceptron (unsigned int, double learning_rate = 0.05);

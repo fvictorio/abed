@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+# Doxygen
+Doxyfile
+doc
+dox.log
