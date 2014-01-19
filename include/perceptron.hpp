@@ -20,7 +20,7 @@ namespace abed {
             return this->train(sds, 10, 0.05);
         }
         virtual double train (const StaticDataSet&, int max_it, double min_error = 0.05);
-        virtual void classify (StaticDataSet&);
+        virtual void classify (StaticDataSet&) const;
     private:
         unsigned int dimension;
         double learning_rate;

@@ -41,7 +41,7 @@ namespace abed {
         return total_error;
     }
 
-    void Perceptron::classify (StaticDataSet& sdp) {
+    void Perceptron::classify (StaticDataSet& sdp) const {
         for (unsigned int i = 0; i < sdp.size(); i++) {
             StaticDataPoint& x = sdp[i];
             double y = 0.0;

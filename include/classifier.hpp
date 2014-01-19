@@ -16,12 +16,13 @@ namespace abed {
     public:
         virtual ~Classifier () {}
 
-        //virtual double train (const StaticDataSet&) = 0;
-        //virtual double train (const DynamicDataSet&) = 0;
         virtual double train (const DataSet*) = 0;
-        //virtual void classify (StaticDataSet&) = 0;
-        //virtual void classify (DynamicDataSet&) = 0;
+        virtual double train (const StaticDataSet&) = 0;
+        virtual double train (const DynamicDataSet&) = 0;
+
         virtual void classify (DataSet*) const = 0;
+        virtual void classify (StaticDataSet&) const = 0;
+        virtual void classify (DynamicDataSet&) const = 0;
     };
 
     //! Abstract static classifier class.
@@ -31,15 +32,17 @@ namespace abed {
 
     class StaticClassifier : public Classifier {
     public:
-        //using Classifier::train; // Effective C++ Item 33
-        //using Classifier::classify; // Effective C++ Item 33
+        using Classifier::train; // Effective C++ Item 33
+        using Classifier::classify; // Effective C++ Item 33
 
         StaticClassifier () { data_converter = new TrivialDataConverter; }
         virtual ~StaticClassifier () { delete data_converter; }
-        //virtual double train (const DynamicDataSet&);
-        virtual double train (const DataSet*
-        //virtual void classify (DynamicDataSet&);
+
+        virtual double train (const DataSet*);
+        virtual double train (const DynamicDataSet&);
+
         virtual void classify (DataSet*) const;
+        virtual void classify (DynamicDataSet&) const;
     protected:
         DataConverter *data_converter;
     };

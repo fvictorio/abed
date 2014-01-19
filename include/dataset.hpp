@@ -64,12 +64,15 @@ namespace abed {
     
     class DataSet {
     public:
+        enum Type { STATIC, DYNAMIC };
+
         virtual ~DataSet () {}
         virtual bool is_labeled () const = 0;
         virtual unsigned int size () const = 0;
         //TODO todos estos const son necesarios?
         virtual const DataPoint*const get_data_point (unsigned int) const = 0;
         virtual DataSet* clone () const = 0;
+        virtual Type get_type () const = 0;
     };
 
     //! Collection of StaticDataPoints.
@@ -99,6 +102,7 @@ namespace abed {
         virtual DataSet* clone () const {
             return(new StaticDataSet(*this));
         }
+        virtual Type get_type () const { return STATIC; }
     private:
         std::vector<StaticDataPoint> data_points;
     };
@@ -129,6 +133,7 @@ namespace abed {
         virtual DataSet* clone () const {
             return(new DynamicDataSet(*this));
         }
+        virtual Type get_type () const { return DYNAMIC; }
     private:
         std::vector<DynamicDataPoint> data_points;
     };
