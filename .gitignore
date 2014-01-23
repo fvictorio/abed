@@ -12,6 +12,9 @@
 *.la
 *.a
 
+# Binaries
+bin
+
 # Vim
 *swp
 
