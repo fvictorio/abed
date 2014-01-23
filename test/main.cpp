@@ -7,9 +7,14 @@ using namespace abed;
 
 int main () {
     Perceptron p(2);
-    StaticDataSet dataset("../test/xor.ssv", SSV);
+    StaticDataSet dataset("/home/blamaeda/proyecto/abed/test/data/or.ssv", SSV);
+
+    cout << dataset.get_size() << endl;
 
     Tester tester(&p, &dataset);
+    tester.resubstitution();
+
+    cout << tester.get_percentage() << endl;
 
     return 0;
 }

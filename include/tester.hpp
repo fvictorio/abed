@@ -26,6 +26,7 @@ namespace abed {
     class Tester {
     public:
         Tester (Classifier* c, DataSet* ds) : classifier(c), data_set(ds) {
+            percentage = -1.0;
             if (!ds->is_labeled()) {
                 throw std::domain_error("Every datapoint must be labeled.");
             }
@@ -34,9 +35,11 @@ namespace abed {
         //void hold_out (double);
         //void cross_validation (int);
         //void leave_one_out ();
+        double get_percentage () { return percentage; }
     private:
         Classifier* classifier;
         DataSet* data_set;
+        double percentage;
     };
 }
 

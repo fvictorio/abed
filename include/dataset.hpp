@@ -65,7 +65,7 @@ namespace abed {
 
         virtual ~DataSet () {}
         virtual bool is_labeled () const = 0;
-        virtual unsigned int size () const = 0;
+        virtual unsigned int get_size () const = 0;
         virtual const DataPoint* get_data_point (unsigned int) const = 0;
         virtual DataSet* clone () const = 0;
         virtual Type get_type () const = 0;
@@ -84,10 +84,9 @@ namespace abed {
             this->read(is, data_fmt);
         }
         StaticDataSet (const char*, DATA_FMT = SSV);
-        virtual unsigned int size () const { return data_points.size(); }
+        virtual unsigned int get_size () const { return data_points.size(); }
         const StaticDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
         StaticDataPoint& operator[] (unsigned int i) { return data_points[i]; }
-        void read (std::istream&, DATA_FMT);
         virtual const DataPoint* get_data_point (unsigned int i) const { return &data_points[i]; }
         virtual bool is_labeled () const {
             for (unsigned int i = 0; i < data_points.size(); i++) {
@@ -99,6 +98,8 @@ namespace abed {
             return(new StaticDataSet(*this));
         }
         virtual Type get_type () const { return STATIC; }
+    protected:
+        void read (std::istream&, DATA_FMT);
     private:
         std::vector<StaticDataPoint> data_points;
     };
@@ -116,9 +117,8 @@ namespace abed {
             this->read(is, data_fmt);
         }
         DynamicDataSet (const char*, DATA_FMT = PO);
-        virtual unsigned int size () const { return data_points.size(); }
+        virtual unsigned int get_size () const { return data_points.size(); }
         const DynamicDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
-        void read (std::istream&, DATA_FMT);
         virtual const DataPoint* get_data_point (unsigned int i) const { return &data_points[i]; }
         virtual bool is_labeled () const {
             for (unsigned int i = 0; i < data_points.size(); i++) {
@@ -130,6 +130,8 @@ namespace abed {
             return(new DynamicDataSet(*this));
         }
         virtual Type get_type () const { return DYNAMIC; }
+    protected:
+        void read (std::istream&, DATA_FMT);
     private:
         std::vector<DynamicDataPoint> data_points;
     };

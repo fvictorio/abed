@@ -9,8 +9,9 @@ namespace abed {
         DataSet* data_set_temp = data_set->clone();
 
         classifier->train(data_set_temp);
+        classifier->classify(data_set_temp);
 
-        unsigned int n = data_set_temp->size();
+        unsigned int n = data_set_temp->get_size();
         unsigned int correct = 0;
         for (unsigned int i = 0; i < n; i++) {
             int label_a, label_b;
@@ -22,7 +23,7 @@ namespace abed {
         }
 
         delete data_set_temp;
-
+        
+        this->percentage = static_cast<double>(correct) / n;
     }
-
 }
