@@ -1,0 +1,5 @@
+Un seq tiene varias instancias, separadas por ;
+
+Cada instancia son varios vectores en R^N, separados por comas ","
+
+Los dos puntos ":" marcan el fin del dataset, creo
