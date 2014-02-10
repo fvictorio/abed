@@ -21,3 +21,6 @@ bin
 # Doxygen
 doc
 dox.log
+
+xor.ssv
+xor_train.ssv
