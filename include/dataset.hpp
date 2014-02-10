@@ -18,11 +18,11 @@ namespace abed {
     public:
         DataPoint () { labeled = false; }
         double diff (double y) const { return label - y; }
-        int get_label () const { return label; }
+        unsigned int get_label () const { return label; }
         void set_label (int l) { labeled = true; label = l; }
         bool is_labeled () const { return labeled; }
     protected:
-        int label;
+        unsigned int label;
         bool labeled;
     };
 

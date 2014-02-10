@@ -17,7 +17,7 @@ namespace abed {
         double total_error = 0.0;
         for (int i = 1; i <= max_it; i++) {
             total_error = 0.0;
-            for (unsigned int j = 0; j < sds.size(); j++) {
+            for (unsigned int j = 0; j < sds.get_size(); j++) {
                 const StaticDataPoint& x = sds[j];
                 double y = 0.0;
 
@@ -34,16 +34,16 @@ namespace abed {
 
                 total_error += std::fabs(error);
             }
-            total_error /= sds.size();
+            total_error /= sds.get_size();
             if (total_error <= min_error) return total_error;
         }
 
         return total_error;
     }
 
-    void Perceptron::classify (StaticDataSet& sdp) const {
-        for (unsigned int i = 0; i < sdp.size(); i++) {
-            StaticDataPoint& x = sdp[i];
+    void Perceptron::classify (StaticDataSet& sds) const {
+        for (unsigned int i = 0; i < sds.get_size(); i++) {
+            StaticDataPoint& x = sds[i];
             double y = 0.0;
 
             y += bias;
