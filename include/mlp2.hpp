@@ -15,24 +15,25 @@ namespace abed {
 
     using std::vector;
 
-    class MLP2 : public StaticClassifier {
+    class MLP : public StaticClassifier {
     public:
-        MLP2 (unsigned int d, unsigned int c, const vector<unsigned int>& hl, double lr, double mom);
-        virtual double train (const StaticDataSet& sds);
-        virtual void classify (StaticDataSet& sds) const;
+        MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, double lr, double m);
+        void classify (StaticDataSet& sds) const;
+        double train (const StaticDataSet& sds);
     private:
         void compute_outputs (const StaticDataPoint&) const;
-        unsigned int predict (const StaticDataPoint&) const;
-    private:
-        unsigned int dimension;
-        unsigned int no_labels;
-        vector<unsigned int> layers;
-        unsigned int no_layers;
+        unsigned int predict_label (const StaticDataPoint&) const;
+        void print_weights () const;
+        void print_error_terms () const;
+        void print_outputs () const;
+        
+        unsigned int dimension, no_classes;
         double learning_rate, momentum;
-
+        unsigned int no_layers;
+        vector<unsigned int> layers;
         vector<vector<vector<double> > > weights;
-        vector<vector<vector<double> > > delta_weights;
         mutable vector<vector<double> > outputs;
+        vector<vector<double> > error_terms;
     };
 
 }
