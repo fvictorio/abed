@@ -17,21 +17,27 @@ namespace abed {
 
     class MLP : public StaticClassifier {
     public:
-        MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, double lr, double m);
-        void classify (StaticDataSet& sds) const;
-        double train (const StaticDataSet& sds);
+        MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, 
+             double lr = 0.05, double m = 0.01, double wr = 0.25);
+        void classify (StaticDataSet&) const;
+        double train (const StaticDataSet&);
+        double train (const StaticDataSet&, double MAX_ERROR, unsigned int MAX_IT);
     private:
+        // Private member functions
         void compute_outputs (const StaticDataPoint&) const;
         unsigned int predict_label (const StaticDataPoint&) const;
+
+        // Used for debugging
         void print_weights () const;
         void print_error_terms () const;
         void print_outputs () const;
         
+        // Attributes
         unsigned int dimension, no_classes;
         double learning_rate, momentum;
         unsigned int no_layers;
         vector<unsigned int> layers;
-        vector<vector<vector<double> > > weights;
+        vector<vector<vector<double> > > weights, delta_weights;
         mutable vector<vector<double> > outputs;
         vector<vector<double> > error_terms;
     };

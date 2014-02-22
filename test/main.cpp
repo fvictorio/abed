@@ -8,18 +8,17 @@ using namespace abed;
 
 int main () {
     vector<unsigned int> hidden_layers;
-    hidden_layers.push_back(2);
-    MLP mlp(2, 2, hidden_layers, 0.05, 0.01);
+    hidden_layers.push_back(1);
+    MLP mlp(4, 3, hidden_layers, 0.05, 0.01, 0.25);
 
-    StaticDataSet sds_train("xor_train.ssv");
-    StaticDataSet sds_orig("xor.ssv");
-    StaticDataSet sds("xor.ssv");
-    cout << mlp.train(sds_train) << endl;
-    mlp.classify(sds);
+    StaticDataSet sds_train("iris.ssv");
+    StaticDataSet sds_orig = sds_train;
+    cout << mlp.train(sds_train, 0.05, 500) << endl;
+    mlp.classify(sds_train);
 
-    for (unsigned int n = 0; n < sds.get_size(); n++) {
-        cout << sds_orig[n].get_label() << " " << sds[n].get_label() << endl;
-    }
+    //for (unsigned int n = 0; n < sds_train.get_size(); n++) {
+    //    cout << sds_orig[n].get_label() << " " << sds_train[n].get_label() << endl;
+    //}
 
     return 0;
 }
