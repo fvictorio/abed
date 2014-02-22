@@ -3,22 +3,21 @@
 #include "../include/dataset.hpp"
 #include "../include/mlp.hpp"
 #include "../include/tester.hpp"
+#include "../include/perceptron.hpp"
 using namespace std;
 using namespace abed;
 
 int main () {
-    vector<unsigned int> hidden_layers;
-    hidden_layers.push_back(1);
-    MLP mlp(4, 3, hidden_layers, 0.05, 0.01, 0.25);
+    // Perceptron
+    Perceptron classifier(2, 0.05, 0.25, 1);
 
-    StaticDataSet sds_train("test/data/iris.ssv");
-    StaticDataSet sds_orig = sds_train;
-    cout << mlp.train(sds_train, 0.05, 500) << endl;
-    mlp.classify(sds_train);
+    // Dataset
+    StaticDataSet sds("xor.ssv");
+    
+    Tester tester(&classifier, &sds);
+    tester.resubstitution(0.05, 200);
+    cout << tester.get_percentage() << endl;
 
-    for (unsigned int n = 0; n < sds_train.get_size(); n++) {
-        cout << sds_orig[n].get_label() << " " << sds_train[n].get_label() << endl;
-    }
 
     return 0;
 }

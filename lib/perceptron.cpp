@@ -1,21 +1,34 @@
 #include <cassert>
 #include <cmath>
+#include <iostream>
+#include <climits>
 #include "../include/perceptron.hpp"
+#include "../include/utilities.hpp"
 
 namespace abed {
 
-    Perceptron::Perceptron (unsigned int d, double lr) {
+    Perceptron::Perceptron (unsigned int d, double lr, double wr, unsigned int seed) {
         dimension = d;
 
-        bias = 0.0;
+        if (seed == UINT_MAX) {
+            srand(time(NULL));
+        }
+        else {
+            srand(seed);
+        }
+        bias = randrange(-wr, wr);
         weights.resize(dimension, 0.0);
+        for (unsigned int i = 0; i < weights.size(); i++) {
+            weights[i] = randrange(-wr, wr);
+        }
 
         learning_rate = lr;
     }
 
-    double Perceptron::train (const StaticDataSet& sds, int max_it, double min_error) {
+    double Perceptron::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
         double total_error = 0.0;
-        for (int i = 1; i <= max_it; i++) {
+
+        for (unsigned int i = 1; i <= MAX_IT; i++) {
             total_error = 0.0;
             for (unsigned int j = 0; j < sds.get_size(); j++) {
                 const StaticDataPoint& x = sds[j];
@@ -35,7 +48,13 @@ namespace abed {
                 total_error += std::fabs(error);
             }
             total_error /= sds.get_size();
-            if (total_error <= min_error) return total_error;
+            if (total_error <= MAX_ERROR) 
+                return total_error;
+        }
+
+        std::cout << "Bias: " << bias << std::endl;
+        for (unsigned int i = 0; i < weights.size(); i++) {
+            std::cout << "Weight " << i << ": " << weights[i] << std::endl;
         }
 
         return total_error;

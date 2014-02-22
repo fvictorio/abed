@@ -2,6 +2,7 @@
 #define ABED_PERCEPTRON_HPP
 
 #include <cmath>
+#include <climits>
 #include "classifier.hpp"
 #include "dataset.hpp"
 #include "utilities.hpp"
@@ -15,11 +16,11 @@ namespace abed {
 
     class Perceptron : public StaticClassifier {
     public:
-        Perceptron (unsigned int, double learning_rate = 0.05);
-        virtual double train (const StaticDataSet& sds) {
-            return this->train(sds, 10, 0.05);
-        }
-        virtual double train (const StaticDataSet&, int max_it, double min_error = 0.05);
+        Perceptron (unsigned int dimension, double learning_rate = 0.05,
+                    double wr = 0.1, unsigned int seed = UINT_MAX);
+        virtual double train (const StaticDataSet&, 
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT);
         virtual void classify (StaticDataSet&) const;
     private:
         unsigned int dimension;

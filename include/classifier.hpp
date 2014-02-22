@@ -16,13 +16,22 @@ namespace abed {
     public:
         virtual ~Classifier () {}
 
-        virtual double train (const DataSet*) = 0;
-        virtual double train (const StaticDataSet&) = 0;
-        virtual double train (const DynamicDataSet&) = 0;
+        virtual double train (const DataSet* = 0,
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT) = 0;
+        virtual double train (const StaticDataSet&, 
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT) = 0;
+        virtual double train (const DynamicDataSet&,
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT) = 0;
 
         virtual void classify (DataSet*) const = 0;
         virtual void classify (StaticDataSet&) const = 0;
         virtual void classify (DynamicDataSet&) const = 0;
+    protected:
+        static const double DEFAULT_MAX_ERROR = 0.05;
+        static const unsigned int DEFAULT_MAX_IT = 1000;
     };
 
     //! Abstract static classifier class.
@@ -38,8 +47,12 @@ namespace abed {
         StaticClassifier () { data_converter = new TrivialDataConverter; }
         virtual ~StaticClassifier () { delete data_converter; }
 
-        virtual double train (const DataSet*);
-        virtual double train (const DynamicDataSet&);
+        virtual double train (const DataSet* = 0,
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT);
+        virtual double train (const DynamicDataSet&,
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT);
 
         virtual void classify (DataSet*) const;
         virtual void classify (DynamicDataSet&) const;

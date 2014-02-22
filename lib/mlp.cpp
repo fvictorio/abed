@@ -1,6 +1,7 @@
 #include <cassert>
 #include <vector>
 #include <iostream>
+#include <climits>
 #include "../include/mlp.hpp"
 #include "../include/utilities.hpp"
 
@@ -11,7 +12,7 @@ namespace abed {
     using std::endl;
     
     MLP::MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, 
-              double lr, double m, double wr)
+              double lr, double m, double wr, unsigned int seed)
               : dimension(d), no_classes(c), learning_rate(lr), momentum(m) {
 
         // Units per layer, not including bias units
@@ -47,7 +48,12 @@ namespace abed {
         delta_weights = weights; // used for momentum
 
         // Initialize weights
-        srand(time(NULL));
+        if (seed == UINT_MAX) {
+            srand(time(NULL));
+        }
+        else {
+            srand(seed);
+        }
         for (unsigned int i = 0; i < weights.size(); i++) {
             for (unsigned int j = 0; j < weights[i].size(); j++) {
                 for (unsigned int k = 0; k < weights[i][j].size(); k++) {
@@ -67,10 +73,6 @@ namespace abed {
         }
     }
     
-    double MLP::train (const StaticDataSet& sds) {
-        return train(sds, 0.05, 1000);
-    }
-
     double MLP::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
         double total_error;
         unsigned int iteration = 1;

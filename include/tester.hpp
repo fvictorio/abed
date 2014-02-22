@@ -2,6 +2,7 @@
 #define ABED_TESTER_HPP
 
 #include <stdexcept>
+#include <climits>
 #include "classifier.hpp"
 #include "dataset.hpp"
 
@@ -31,7 +32,8 @@ namespace abed {
                 throw std::domain_error("Every datapoint must be labeled.");
             }
         }
-        void resubstitution ();
+        void resubstitution (double MAX_ERROR = -1.0,
+                             unsigned int MAX_IT = UINT_MAX);
         //void hold_out (double);
         //void cross_validation (int);
         //void leave_one_out ();

@@ -5,10 +5,18 @@
 
 namespace abed {
 
-    void Tester::resubstitution () {
+    void Tester::resubstitution (double MAX_ERROR, unsigned int MAX_IT) {
         DataSet* data_set_temp = data_set->clone();
 
-        classifier->train(data_set_temp);
+        if (MAX_ERROR < 0.0) { // both defaults
+            classifier->train(data_set_temp);
+        }
+        else if (MAX_IT == UINT_MAX) { // only error default
+            classifier->train(data_set_temp, MAX_ERROR);
+        }
+        else {
+            classifier->train(data_set_temp, MAX_ERROR, MAX_IT);
+        }
         classifier->classify(data_set_temp);
 
         unsigned int n = data_set_temp->get_size();

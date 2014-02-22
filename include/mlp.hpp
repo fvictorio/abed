@@ -2,6 +2,7 @@
 #define ABED_MLP_HPP
 
 #include <vector>
+#include <climits>
 #include "classifier.hpp"
 
 namespace abed {
@@ -18,10 +19,11 @@ namespace abed {
     class MLP : public StaticClassifier {
     public:
         MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, 
-             double lr = 0.05, double m = 0.01, double wr = 0.25);
+             double lr = 0.05, double m = 0.01, double wr = 0.25, unsigned int seed = UINT_MAX);
         void classify (StaticDataSet&) const;
-        double train (const StaticDataSet&);
-        double train (const StaticDataSet&, double MAX_ERROR, unsigned int MAX_IT);
+        double train (const StaticDataSet&, 
+                      double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                      unsigned int MAX_IT = DEFAULT_MAX_IT);
     private:
         // Private member functions
         void compute_outputs (const StaticDataPoint&) const;
