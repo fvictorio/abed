@@ -22,9 +22,11 @@ namespace abed {
                               double MAX_ERROR = DEFAULT_MAX_ERROR, 
                               unsigned int MAX_IT = DEFAULT_MAX_IT);
         virtual void classify (StaticDataSet&) const;
+        virtual void initialize (unsigned int seed = UINT_MAX);
     private:
         unsigned int dimension;
         double learning_rate;
+        double weights_range;
 
         double bias;
         std::vector<double> weights;

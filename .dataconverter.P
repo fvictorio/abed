@@ -1,2 +1,0 @@
-dataconverter.o .dataconverter.P : lib/dataconverter.cpp lib/../include/dataconverter.hpp \
- lib/../include/dataset.hpp

@@ -9,31 +9,33 @@ LIB_DIR = lib
 BIN_DIR = bin
 
 CPP_EXT = .cpp
+INC_EXT = .hpp
 OBJ_EXT = .o
 PREREQ_EXT = .P
 
 CPP_FILES = $(wildcard $(LIB_DIR)/*$(CPP_EXT))
+INC_FILES = $(wildcard $(INC_DIR)/*$(INC_EXT))
 OBJ_FILES  = $(subst $(LIB_DIR),$(OBJ_DIR),$(subst $(CPP_EXT),$(OBJ_EXT),$(CPP_FILES)))
+
+.PHONY: all depend clean test
 
 all : $(OBJ_FILES)
 
-main : test/main.cpp $(OBJ_FILES)
-	$(CC) $(CFLAGS) test/main.cpp -o test/main.o
-	$(LINKER) $(LFLAGS) test/main.o $(OBJ_FILES) -o bin/main
-
-test : main
+test : $(OBJ_FILES)
+	$(CC) $(CFLAGS) test/main.cpp -o $(OBJ_DIR)/main.o
+	$(LINKER) $(LFLAGS) $(OBJ_DIR)/main.o $(OBJ_FILES) -o bin/main
 	bin/main
-
-.%$(PREREQ_EXT) : $(LIB_DIR)/%$(CPP_EXT)
-	$(CC) -MM $< > $*.d && \
-	sed 's/\($*\)\.o[ :]*/\1.o $@ : /g' < $*.d > $@; \
-	             rm -f $*.d; \
-				 [ -s $@ ] || rm -f $@
-
 
 $(OBJ_DIR)/%$(OBJ_EXT) : $(LIB_DIR)/%$(CPP_EXT)
 	$(CC) $(CFLAGS) $< -o $@
 
-include $(addprefix .,$(notdir $(OBJ_FILES:$(OBJ_EXT)=$(PREREQ_EXT))))
+clean :
+	rm $(OBJ_DIR)/*
 
-% : %$(OBJ_EXT) ;
+depend :
+	[ ! -f ./.depend ] || rm ./.depend
+	for i in $(notdir $(CPP_FILES)); do \
+		$(CC) -MM -MT $(OBJ_DIR)/`echo $$i | sed "s/$(CPP_EXT)/$(OBJ_EXT)/"` $(LIB_DIR)/$$i >> ./.depend; \
+	done
+
+include .depend

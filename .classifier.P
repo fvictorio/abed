@@ -1,2 +1,0 @@
-classifier.o .classifier.P : lib/classifier.cpp lib/../include/classifier.hpp \
- lib/../include/dataset.hpp lib/../include/dataconverter.hpp

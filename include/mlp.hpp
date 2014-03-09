@@ -20,14 +20,14 @@ namespace abed {
     public:
         MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, 
              double lr = 0.05, double m = 0.01, double wr = 0.25, unsigned int seed = UINT_MAX);
-        void classify (StaticDataSet&) const;
-        double train (const StaticDataSet&, 
-                      double MAX_ERROR = DEFAULT_MAX_ERROR, 
-                      unsigned int MAX_IT = DEFAULT_MAX_IT);
+        virtual double train (const StaticDataSet&, 
+                              double MAX_ERROR = DEFAULT_MAX_ERROR, 
+                              unsigned int MAX_IT = DEFAULT_MAX_IT);
+        virtual void initialize (unsigned int seed = UINT_MAX);
+        virtual unsigned int predict_label (const StaticDataPoint&) const;
     private:
         // Private member functions
         void compute_outputs (const StaticDataPoint&) const;
-        unsigned int predict_label (const StaticDataPoint&) const;
 
         // Used for debugging
         void print_weights () const;
@@ -37,6 +37,7 @@ namespace abed {
         // Attributes
         unsigned int dimension, no_classes;
         double learning_rate, momentum;
+        double weights_range;
         unsigned int no_layers;
         vector<unsigned int> layers;
         vector<vector<vector<double> > > weights, delta_weights;

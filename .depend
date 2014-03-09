@@ -1,0 +1,19 @@
+obj/bagging.o: lib/bagging.cpp lib/../include/bagging.hpp \
+ lib/../include/ensemble.hpp lib/../include/classifier.hpp \
+ lib/../include/dataset.hpp lib/../include/dataconverter.hpp
+obj/classifier.o: lib/classifier.cpp lib/../include/classifier.hpp \
+ lib/../include/dataset.hpp lib/../include/dataconverter.hpp
+obj/dataconverter.o: lib/dataconverter.cpp \
+ lib/../include/dataconverter.hpp lib/../include/dataset.hpp
+obj/dataset.o: lib/dataset.cpp lib/../include/dataset.hpp \
+ lib/../include/utilities.hpp
+obj/mlp.o: lib/mlp.cpp lib/../include/mlp.hpp \
+ lib/../include/classifier.hpp lib/../include/dataset.hpp \
+ lib/../include/dataconverter.hpp lib/../include/utilities.hpp
+obj/perceptron.o: lib/perceptron.cpp lib/../include/perceptron.hpp \
+ lib/../include/classifier.hpp lib/../include/dataset.hpp \
+ lib/../include/dataconverter.hpp lib/../include/utilities.hpp \
+ lib/../include/utilities.hpp
+obj/tester.o: lib/tester.cpp lib/../include/dataset.hpp \
+ lib/../include/tester.hpp lib/../include/classifier.hpp \
+ lib/../include/dataset.hpp lib/../include/dataconverter.hpp

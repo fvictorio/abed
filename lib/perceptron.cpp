@@ -7,22 +7,20 @@
 
 namespace abed {
 
-    Perceptron::Perceptron (unsigned int d, double lr, double wr, unsigned int seed) {
-        dimension = d;
+    Perceptron::Perceptron (unsigned int d, double lr, double wr, unsigned int seed)
+                           : dimension(d), learning_rate(lr), weights_range(wr) {
+        this->initialize(seed);
+    }
 
-        if (seed == UINT_MAX) {
-            srand(time(NULL));
-        }
-        else {
+    void Perceptron::initialize (unsigned int seed) {
+        if (seed != UINT_MAX) {
             srand(seed);
         }
-        bias = randrange(-wr, wr);
+        bias = randrange(-weights_range, weights_range);
         weights.resize(dimension, 0.0);
         for (unsigned int i = 0; i < weights.size(); i++) {
-            weights[i] = randrange(-wr, wr);
+            weights[i] = randrange(-weights_range, weights_range);
         }
-
-        learning_rate = lr;
     }
 
     double Perceptron::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
@@ -30,7 +28,7 @@ namespace abed {
 
         for (unsigned int i = 1; i <= MAX_IT; i++) {
             total_error = 0.0;
-            for (unsigned int j = 0; j < sds.get_size(); j++) {
+            for (unsigned int j = 0; j < sds.size(); j++) {
                 const StaticDataPoint& x = sds[j];
                 double y = 0.0;
 
@@ -47,21 +45,16 @@ namespace abed {
 
                 total_error += std::fabs(error);
             }
-            total_error /= sds.get_size();
+            total_error /= sds.size();
             if (total_error <= MAX_ERROR) 
                 return total_error;
-        }
-
-        std::cout << "Bias: " << bias << std::endl;
-        for (unsigned int i = 0; i < weights.size(); i++) {
-            std::cout << "Weight " << i << ": " << weights[i] << std::endl;
         }
 
         return total_error;
     }
 
     void Perceptron::classify (StaticDataSet& sds) const {
-        for (unsigned int i = 0; i < sds.get_size(); i++) {
+        for (unsigned int i = 0; i < sds.size(); i++) {
             StaticDataPoint& x = sds[i];
             double y = 0.0;
 

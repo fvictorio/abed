@@ -9,13 +9,8 @@ using namespace std;
 using namespace abed;
 
 int main () {
-    Bagging bagging(3);
     StaticDataSet sds("iris.ssv");
-
-    Tester tester(&bagging, &sds);
-
-    tester.resubstitution();
-    cout << tester.get_percentage() << endl;
+    Bagging bagging(3);
 
     return 0;
 }

@@ -1,4 +1,0 @@
-perceptron.o .perceptron.P : lib/perceptron.cpp lib/../include/perceptron.hpp \
- lib/../include/classifier.hpp lib/../include/dataset.hpp \
- lib/../include/dataconverter.hpp lib/../include/utilities.hpp \
- lib/../include/utilities.hpp

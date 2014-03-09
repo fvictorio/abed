@@ -1,3 +1,0 @@
-mlp.o .mlp.P : lib/mlp.cpp lib/../include/mlp.hpp lib/../include/classifier.hpp \
- lib/../include/dataset.hpp lib/../include/dataconverter.hpp \
- lib/../include/utilities.hpp

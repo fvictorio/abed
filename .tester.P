@@ -1,3 +1,0 @@
-tester.o .tester.P : lib/tester.cpp lib/../include/tester.hpp \
- lib/../include/classifier.hpp lib/../include/dataset.hpp \
- lib/../include/dataconverter.hpp

@@ -22,5 +22,7 @@ bin
 doc
 dox.log
 
-xor.ssv
-xor_train.ssv
+*ssv
+
+notas.txt
+todo.txt

@@ -13,7 +13,8 @@ namespace abed {
     
     MLP::MLP (unsigned int d, unsigned int c, const vector<unsigned int> &hl, 
               double lr, double m, double wr, unsigned int seed)
-              : dimension(d), no_classes(c), learning_rate(lr), momentum(m) {
+              : dimension(d), no_classes(c), learning_rate(lr), momentum(m),
+                weights_range(wr) {
 
         // Units per layer, not including bias units
         layers = hl; // hidden layers
@@ -48,40 +49,31 @@ namespace abed {
         delta_weights = weights; // used for momentum
 
         // Initialize weights
-        if (seed == UINT_MAX) {
-            srand(time(NULL));
-        }
-        else {
+        this->initialize(seed);
+
+    }
+
+    void MLP::initialize (unsigned int seed) {
+        if (seed != UINT_MAX) {
             srand(seed);
         }
         for (unsigned int i = 0; i < weights.size(); i++) {
             for (unsigned int j = 0; j < weights[i].size(); j++) {
                 for (unsigned int k = 0; k < weights[i][j].size(); k++) {
-                    weights[i][j][k] = randrange(-wr, wr);
+                    weights[i][j][k] = randrange(-weights_range, weights_range);
                 }
             }
         }
     }
 
-    void MLP::classify (StaticDataSet& sds) const {
-        for (unsigned int n = 0; n < sds.get_size(); n++) {
-            StaticDataPoint& x = sds[n];
-            this->compute_outputs(x);
-
-            unsigned int predicted_label = this->predict_label(x);
-            x.set_label(predicted_label);
-        }
-    }
-    
     double MLP::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
         double total_error;
         unsigned int iteration = 1;
         
         do {
             total_error = 0.0;
-            for (unsigned int n = 0; n < sds.get_size(); n++) {
+            for (unsigned int n = 0; n < sds.size(); n++) {
                 const StaticDataPoint& x = sds[n];
-                this->compute_outputs(x);
 
                 // Backward
                 unsigned int correct_label = x.get_label();
@@ -124,10 +116,9 @@ namespace abed {
                 }
             }
             
-            total_error /= sds.get_size();
+            total_error /= sds.size();
             iteration++;
         } while (total_error > MAX_ERROR && iteration <= MAX_IT);
-        cout << iteration << endl;
 
         return total_error;
     }
@@ -163,6 +154,8 @@ namespace abed {
     }
 
     unsigned int MLP::predict_label (const StaticDataPoint& x) const {
+        this->compute_outputs(x);
+        
         // Label is the index of the output unit with maximum activation
         double max_output = outputs[no_layers-1][0];
         unsigned int max_idx = 0;

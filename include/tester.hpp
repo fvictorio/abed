@@ -34,11 +34,16 @@ namespace abed {
         }
         void resubstitution (double MAX_ERROR = -1.0,
                              unsigned int MAX_IT = UINT_MAX);
-        //void hold_out (double);
-        //void cross_validation (int);
-        //void leave_one_out ();
-        double get_percentage () { return percentage; }
+        void hold_out (double p, double MAX_ERROR = -1.0,
+                                 unsigned int MAX_IT = UINT_MAX);
+        void cross_validation (unsigned int K, double MAX_ERROR = -1.0,
+                                               unsigned int MAX_IT = UINT_MAX);
+        void leave_one_out (double MAX_ERROR = -1.0,
+                            unsigned int MAX_IT = UINT_MAX);
+        double get_percentage () const { return percentage; }
     private:
+        double train_classifier (DataSet* ds, double MAX_ERROR, unsigned int MAX_IT) const;
+
         Classifier* classifier;
         DataSet* data_set;
         double percentage;
