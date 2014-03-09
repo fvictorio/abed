@@ -16,16 +16,31 @@ namespace abed {
         }
     }
 
-    double Bagging::train (const StaticDataSet&, double MAX_ERROR, unsigned int MAX_IT) {
-        //TODO
-        assert(false);
-        return 0.0;
+    double Bagging::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
+        double mean_train_error = 0.0;
+        for (unsigned int i = 0; i < classifiers.size(); i++) {
+            DataSet* bootstrapped = sds.bootstrap();
+            
+            mean_train_error += classifiers[i]->train(bootstrapped, MAX_ERROR, MAX_IT);
+
+            delete bootstrapped;
+        }
+        mean_train_error /= classifiers.size();
+        return mean_train_error;
     }
 
-    double Bagging::train (const DynamicDataSet&, double MAX_ERROR, unsigned int MAX_IT) {
-        //TODO
-        assert(false);
-        return 0.0;
+    // TODO SOOO MUCH REPETITION
+    double Bagging::train (const DynamicDataSet& dds, double MAX_ERROR, unsigned int MAX_IT) {
+        double mean_train_error = 0.0;
+        for (unsigned int i = 0; i < classifiers.size(); i++) {
+            DataSet* bootstrapped = dds.bootstrap();
+            
+            mean_train_error += classifiers[i]->train(bootstrapped, MAX_ERROR, MAX_IT);
+
+            delete bootstrapped;
+        }
+        mean_train_error /= classifiers.size();
+        return mean_train_error;
     }
 
     unsigned int Bagging::predict_label (const StaticDataPoint& sdp) const {
