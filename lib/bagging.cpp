@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <vector>
+#include <cassert>
 #include "../include/bagging.hpp"
 
 namespace abed {
@@ -48,6 +49,7 @@ namespace abed {
 
         for (unsigned int i = 0; i < classifiers.size(); i++) {
             unsigned int vote = classifiers[i]->predict_label(sdp);
+            assert(vote >= 0 && vote < no_classes);
             votes[vote]++;
         }
 

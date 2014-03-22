@@ -79,6 +79,9 @@ namespace abed {
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const = 0;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const = 0;
         virtual Type get_type () const = 0;
+        virtual unsigned int get_dimension () const { return dimension; }
+    protected:
+        unsigned int dimension;
     };
 
     //! Collection of StaticDataPoints.

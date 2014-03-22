@@ -24,6 +24,9 @@ namespace abed {
                               double MAX_ERROR = DEFAULT_MAX_ERROR, 
                               unsigned int MAX_IT = DEFAULT_MAX_IT);
         virtual void initialize (unsigned int seed = UINT_MAX);
+        virtual Classifier* clone () const {
+            return new MLP(*this);
+        }
         virtual unsigned int predict_label (const StaticDataPoint&) const;
     private:
         // Private member functions

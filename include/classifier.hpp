@@ -19,6 +19,8 @@ namespace abed {
 
         virtual void initialize (unsigned int seed = UINT_MAX) = 0;
 
+        virtual Classifier* clone () const = 0;
+
         virtual double train (const DataSet*,
                               double MAX_ERROR = DEFAULT_MAX_ERROR, 
                               unsigned int MAX_IT = DEFAULT_MAX_IT);

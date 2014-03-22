@@ -10,6 +10,9 @@ namespace abed {
     public:
         Bagging (int c) : no_classes(c) {}
         virtual void initialize (unsigned int seed = UINT_MAX);
+        virtual Classifier* clone () const {
+            return new Bagging(*this);
+        }
 
         virtual double train (const StaticDataSet&, 
                               double MAX_ERROR = DEFAULT_MAX_ERROR, 

@@ -10,31 +10,22 @@ using namespace abed;
 
 int main () {
     srand(time(NULL));
-    StaticDataSet sds("yeast.ssv");
+
+    const double MAX_ERROR = 0.00;
+    const unsigned int MAX_IT = 1000;
+
+    StaticDataSet sds("or.ssv");
 
     vector<unsigned int> hl;
+    hl.push_back(2);
+    hl.push_back(2);
+    MLP mlp(2, 2, hl, 0.05, 0.01);
 
-    //hl.push_back(8);
-    //hl.push_back(8);
-    //MLP mlp(8, 10, hl);
+    Tester tester(&mlp, &sds);
 
-    //Tester mlp_tester(&mlp, &sds);
-    //mlp_tester.resubstitution();
-    //cout << "MLP: " << mlp_tester.get_percentage() << endl;
-
-    Bagging bagging(3);
-    hl.clear();
-    hl.push_back(4);
-    bagging.add_classifier(new MLP(8, 10, hl));
-    bagging.add_classifier(new MLP(8, 10, hl));
-    bagging.add_classifier(new MLP(8, 10, hl));
-    bagging.add_classifier(new MLP(8, 10, hl));
-    bagging.add_classifier(new MLP(8, 10, hl));
-    bagging.add_classifier(new MLP(8, 10, hl));
-
-    Tester bagging_tester(&bagging, &sds);
-    bagging_tester.resubstitution();
-    cout << "Bagging: " << bagging_tester.get_percentage() << endl;
+    //tester.cross_validation(10, MAX_ERROR, MAX_IT);
+    tester.hold_out(0.1, MAX_ERROR, MAX_IT);
+    cout << tester.get_percentage() << endl;
 
     return 0;
 }

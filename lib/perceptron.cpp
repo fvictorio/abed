@@ -53,18 +53,14 @@ namespace abed {
         return total_error;
     }
 
-    void Perceptron::classify (StaticDataSet& sds) const {
-        for (unsigned int i = 0; i < sds.size(); i++) {
-            StaticDataPoint& x = sds[i];
-            double y = 0.0;
+    unsigned int Perceptron::predict_label (const StaticDataPoint& x) const {
+        double y = 0.0;
 
-            y += bias;
-            for (unsigned int i = 0; i < dimension; i++) {
-                y += weights[i] * x[i];
-            }
-
-            x.set_label(round(y));
+        y += bias;
+        for (unsigned int i = 0; i < dimension; i++) {
+            y += weights[i] * x[i];
         }
-    }
 
+        return round(y);
+    }
 }

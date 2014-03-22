@@ -27,6 +27,9 @@ namespace abed {
         int d;
         if (data_fmt == SSV || data_fmt == CSV) {
             is >> d;
+            this->dimension = d;
+
+            //TODO CSV
 
             // Ignore rest of line
             is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -59,6 +62,8 @@ namespace abed {
     DataSet* StaticDataSet::indexed_clone (const std::vector<unsigned int>& indexes) const {
         StaticDataSet *indexed_dataset = new StaticDataSet;
         
+        indexed_dataset->dimension = this->dimension;
+        
         for (unsigned int i = 0; i < indexes.size(); i++) {
             indexed_dataset->data_points.push_back(this->data_points[indexes[i]]);
         }
@@ -69,6 +74,9 @@ namespace abed {
     void StaticDataSet::slice (unsigned int a, unsigned int b, DataSet*& sliced_ds, DataSet*& remaining_ds) const {
         StaticDataSet* sliced_sds = new StaticDataSet;
         StaticDataSet* remaining_sds = new StaticDataSet;
+
+        sliced_sds->dimension = this->dimension;
+        remaining_sds->dimension = this->dimension;
 
         for (unsigned int i = 0; i < a; i++) {
             remaining_sds->data_points.push_back(this->data_points[i]);
@@ -86,6 +94,8 @@ namespace abed {
 
     DataSet* DynamicDataSet::indexed_clone (const std::vector<unsigned int>& indexes) const {
         DynamicDataSet *indexed_dataset = new DynamicDataSet;
+
+        indexed_dataset->dimension = this->dimension;
         
         for (unsigned int i = 0; i < indexes.size(); i++) {
             indexed_dataset->data_points.push_back(this->data_points[indexes[i]]);
@@ -98,6 +108,7 @@ namespace abed {
         if (n == UINT_MAX) n = data_points.size();
         
         StaticDataSet* bootstrapped_ds = new StaticDataSet;
+        bootstrapped_ds->dimension = this->dimension;
 
         unsigned int idx;
         for (unsigned int i = 0; i < n; i++) {
@@ -115,6 +126,7 @@ namespace abed {
         if (n == UINT_MAX) n = data_points.size();
         
         DynamicDataSet* bootstrapped_ds = new DynamicDataSet;
+        bootstrapped_ds->dimension = this->dimension;
 
         for (unsigned int i = 0; i < n; i++) {
             //TODO randomness
@@ -128,6 +140,9 @@ namespace abed {
     void DynamicDataSet::slice (unsigned int a, unsigned int b, DataSet*& sliced_ds, DataSet*& remaining_ds) const {
         DynamicDataSet* sliced_dds = new DynamicDataSet; // TODO necesario?
         DynamicDataSet* remaining_dds = new DynamicDataSet;
+
+        sliced_dds->dimension = this->dimension;
+        remaining_dds->dimension = this->dimension;
 
         for (unsigned int i = 0; i < a; i++) {
             remaining_dds->data_points.push_back(this->data_points[i]);

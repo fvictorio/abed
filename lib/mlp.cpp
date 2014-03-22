@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <climits>
+#include <stdexcept>
 #include "../include/mlp.hpp"
 #include "../include/utilities.hpp"
 
@@ -67,6 +68,10 @@ namespace abed {
     }
 
     double MLP::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
+        if (sds.get_dimension() != dimension) {
+            throw std::domain_error("Dimension of MLP and dataset are not the same");
+        }
+
         double total_error;
         unsigned int iteration = 1;
         
