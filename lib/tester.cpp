@@ -84,7 +84,7 @@ namespace abed {
 
         this->percentage = accum_percentage / K;
     }
-        
+
     void Tester::leave_one_out (double MAX_ERROR,
                                 unsigned int MAX_IT) {
         this->cross_validation(data_set->size(), MAX_ERROR, MAX_IT);

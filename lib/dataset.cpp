@@ -24,10 +24,12 @@ namespace abed {
         using std::stringstream;
         using std::getline;
 
-        int d;
+        unsigned int d, c;
         if (data_fmt == SSV || data_fmt == CSV) {
             is >> d;
+            is >> c;
             this->dimension = d;
+            this->no_classes = c;
 
             //TODO CSV
 
@@ -42,7 +44,7 @@ namespace abed {
                 StaticDataPoint sdp;
                 sdp.features.resize(d);
 
-                for (int i = 0; i < d; i++) {
+                for (unsigned int i = 0; i < d; i++) {
                     ss >> sdp.features[i];
                 }
 
@@ -63,6 +65,7 @@ namespace abed {
         StaticDataSet *indexed_dataset = new StaticDataSet;
         
         indexed_dataset->dimension = this->dimension;
+        indexed_dataset->no_classes = this->no_classes;
         
         for (unsigned int i = 0; i < indexes.size(); i++) {
             indexed_dataset->data_points.push_back(this->data_points[indexes[i]]);
@@ -76,7 +79,9 @@ namespace abed {
         StaticDataSet* remaining_sds = new StaticDataSet;
 
         sliced_sds->dimension = this->dimension;
+        sliced_sds->no_classes = this->no_classes;
         remaining_sds->dimension = this->dimension;
+        remaining_sds->no_classes = this->no_classes;
 
         for (unsigned int i = 0; i < a; i++) {
             remaining_sds->data_points.push_back(this->data_points[i]);
@@ -96,6 +101,7 @@ namespace abed {
         DynamicDataSet *indexed_dataset = new DynamicDataSet;
 
         indexed_dataset->dimension = this->dimension;
+        indexed_dataset->no_classes = this->no_classes;
         
         for (unsigned int i = 0; i < indexes.size(); i++) {
             indexed_dataset->data_points.push_back(this->data_points[indexes[i]]);
@@ -109,6 +115,7 @@ namespace abed {
         
         StaticDataSet* bootstrapped_ds = new StaticDataSet;
         bootstrapped_ds->dimension = this->dimension;
+        bootstrapped_ds->no_classes = this->no_classes;
 
         unsigned int idx;
         for (unsigned int i = 0; i < n; i++) {
@@ -127,6 +134,7 @@ namespace abed {
         
         DynamicDataSet* bootstrapped_ds = new DynamicDataSet;
         bootstrapped_ds->dimension = this->dimension;
+        bootstrapped_ds->no_classes = this->no_classes;
 
         for (unsigned int i = 0; i < n; i++) {
             //TODO randomness
@@ -142,7 +150,9 @@ namespace abed {
         DynamicDataSet* remaining_dds = new DynamicDataSet;
 
         sliced_dds->dimension = this->dimension;
+        sliced_dds->no_classes = this->no_classes;
         remaining_dds->dimension = this->dimension;
+        remaining_dds->no_classes = this->no_classes;
 
         for (unsigned int i = 0; i < a; i++) {
             remaining_dds->data_points.push_back(this->data_points[i]);

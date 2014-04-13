@@ -8,7 +8,7 @@ namespace abed {
 
     class Bagging : public EnsembleClassifier {
     public:
-        Bagging (int c) : no_classes(c) {}
+        Bagging (int d, int c) : dimension(d), no_classes(c) {}
         virtual void initialize (unsigned int seed = UINT_MAX);
         virtual Classifier* clone () const {
             return new Bagging(*this);
@@ -25,7 +25,7 @@ namespace abed {
         virtual unsigned int predict_label (const DynamicDataPoint&) const;
 
     private:
-        unsigned int no_classes;
+        unsigned int dimension, no_classes;
     };
 
 }

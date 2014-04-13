@@ -10,11 +10,11 @@ using namespace abed;
 
 int main () {
     srand(time(NULL));
-    unsigned int dimension = 7;
-    unsigned int no_classes = 8;
+    unsigned int dimension = 8;
+    unsigned int no_classes = 10;
     double MAX_ERROR = 0.05;
     unsigned int MAX_IT = 1000;
-    StaticDataSet sds("ecoli.ssv");
+    StaticDataSet sds("yeast.ssv");
 
     vector<unsigned int> hl;
 
@@ -27,7 +27,7 @@ int main () {
     mlp_tester.hold_out(0.1, MAX_ERROR, MAX_IT);
     cout << "MLP: " << mlp_tester.get_percentage() << endl;
 
-    Bagging bagging(no_classes);
+    Bagging bagging(dimension, no_classes);
     hl.clear();
     hl.push_back(dimension);
     bagging.add_classifier(new MLP(dimension, no_classes, hl));

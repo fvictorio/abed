@@ -80,11 +80,13 @@ namespace abed {
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const = 0;
         virtual Type get_type () const = 0;
         virtual unsigned int get_dimension () const { return dimension; }
+        virtual unsigned int get_no_classes () const { return no_classes; }
     protected:
         unsigned int dimension;
+        unsigned int no_classes;
     };
 
-    //! Collection of StaticDataPoints.
+    //! Collection of StaticDataPoint's.
     //
     //! A StaticDataSet is created from some input stream
     //! properly formatted. This can be an ifstream,

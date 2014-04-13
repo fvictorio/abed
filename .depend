@@ -7,6 +7,7 @@ obj/dataconverter.o: lib/dataconverter.cpp \
  lib/../include/dataconverter.hpp lib/../include/dataset.hpp
 obj/dataset.o: lib/dataset.cpp lib/../include/dataset.hpp \
  lib/../include/utilities.hpp
+obj/libsvm.o: lib/libsvm.cpp lib/../include/libsvm.hpp
 obj/mlp.o: lib/mlp.cpp lib/../include/mlp.hpp \
  lib/../include/classifier.hpp lib/../include/dataset.hpp \
  lib/../include/dataconverter.hpp lib/../include/utilities.hpp
@@ -14,6 +15,9 @@ obj/perceptron.o: lib/perceptron.cpp lib/../include/perceptron.hpp \
  lib/../include/classifier.hpp lib/../include/dataset.hpp \
  lib/../include/dataconverter.hpp lib/../include/utilities.hpp \
  lib/../include/utilities.hpp
+obj/svm.o: lib/svm.cpp lib/../include/svm.hpp \
+ lib/../include/classifier.hpp lib/../include/dataset.hpp \
+ lib/../include/dataconverter.hpp lib/../include/libsvm.hpp
 obj/tester.o: lib/tester.cpp lib/../include/dataset.hpp \
  lib/../include/tester.hpp lib/../include/classifier.hpp \
  lib/../include/dataset.hpp lib/../include/dataconverter.hpp

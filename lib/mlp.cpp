@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdlib>
 #include <vector>
 #include <iostream>
 #include <climits>
@@ -68,8 +69,11 @@ namespace abed {
     }
 
     double MLP::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
-        if (sds.get_dimension() != dimension) {
+        if (sds.get_dimension() != this->dimension) {
             throw std::domain_error("Dimension of MLP and dataset are not the same");
+        }
+        if (sds.get_no_classes() != this->no_classes) {
+            throw std::domain_error("Number of classes of MLP and dataset are not the same");
         }
 
         double total_error;

@@ -15,11 +15,14 @@ PREREQ_EXT = .P
 
 CPP_FILES = $(wildcard $(LIB_DIR)/*$(CPP_EXT))
 INC_FILES = $(wildcard $(INC_DIR)/*$(INC_EXT))
-OBJ_FILES  = $(subst $(LIB_DIR),$(OBJ_DIR),$(subst $(CPP_EXT),$(OBJ_EXT),$(CPP_FILES)))
+OBJ_FILES  = $(subst $(LIB_DIR)/,$(OBJ_DIR)/,$(subst $(CPP_EXT),$(OBJ_EXT),$(CPP_FILES)))
 
-.PHONY: all depend clean test
+.PHONY: all depend clean test debug
 
 all : $(OBJ_FILES)
+
+debug :
+	@echo $(OBJ_FILES)
 
 test : $(OBJ_FILES)
 	$(CC) $(CFLAGS) test/main.cpp -o $(OBJ_DIR)/main.o

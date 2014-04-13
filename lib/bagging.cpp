@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <cstdlib>
+#include <stdexcept>
 #include <vector>
 #include <cassert>
 #include "../include/bagging.hpp"
@@ -18,6 +18,13 @@ namespace abed {
     }
 
     double Bagging::train (const StaticDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
+        if (sds.get_dimension() != this->dimension) {
+            throw std::domain_error("Dimension of Bagging and dataset are not the same");
+        }
+        if (sds.get_no_classes() != this->no_classes) {
+            throw std::domain_error("Number of classes of Bagging and dataset are not the same");
+        }
+
         double mean_train_error = 0.0;
         for (unsigned int i = 0; i < classifiers.size(); i++) {
             DataSet* bootstrapped = sds.bootstrap();
