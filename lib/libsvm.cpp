@@ -46,7 +46,7 @@ namespace abed {
         fflush(stdout);
     }
     static void (*svm_print_string) (const char *) = &print_string_stdout;
-    #if 1
+    #if 0
     static void info(const char *fmt,...)
     {
         char buf[BUFSIZ];
