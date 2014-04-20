@@ -12,11 +12,10 @@ namespace abed {
         SVM (unsigned int d, unsigned int c);
         // Constructor con parametros mas definidos
         SVM (unsigned int d, unsigned int c, svm_parameter);
-
-        SVM (const SVM&);
+        SVM (const SVM& svm);
         SVM& operator= (SVM svm);
         ~SVM ();
-        friend void swap(SVM& first, SVM& second);
+        friend void swap (SVM&, SVM&);
 
         virtual void initialize (unsigned int seed = UINT_MAX);
         virtual unsigned int predict_label (const StaticDataPoint&) const;
@@ -27,22 +26,17 @@ namespace abed {
             return new SVM(*this);
         }
 
-        static void SDS_to_SVM_problem (const StaticDataSet&, svm_problem*&);
-        static void SDP_to_SVM_node (const StaticDataPoint&, svm_node*&, unsigned int);
+        static void SDS_to_svm_problem (const StaticDataSet&, svm_problem&);
+        static void SDP_to_svm_node (const StaticDataPoint&, svm_node*&, unsigned int);
     private:
-        void initialize_pointers ();
-        void static copy_svm_parameter (const svm_parameter* const from_param, svm_parameter*& to_param);
-        void static copy_svm_model (const svm_model* const from_model, svm_model*& to_model);
-        void static copy_svm_problem (const svm_problem* const from_prob, svm_problem*& to_prob);
-        void static free_svm_parameter (svm_parameter* const param);
-        void static free_svm_model (svm_model* const model);
-        void static free_svm_problem (svm_problem* const prob);
+        static void free_svm_problem (svm_problem&);
 
         unsigned int dimension;
         unsigned int no_classes;
-        svm_parameter* param;
+        svm_parameter param;
         svm_model* model;
-        svm_problem* prob;
+        svm_problem prob;
+        bool already_trained;
     };
 
 }

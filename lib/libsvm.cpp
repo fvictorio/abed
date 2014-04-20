@@ -7,6 +7,8 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <locale.h>
+#include <cassert>
+#include <iostream>
 #include "../include/libsvm.hpp"
 
 namespace abed {
@@ -3112,4 +3114,234 @@ namespace abed {
         else
             svm_print_string = print_func;
     }
+
+    // These are the functions that I added to libsvm to make my life easier
+    
+    /*
+    svm_model::svm_model () {
+        nr_class = 0;
+        l = 0;
+        SV = NULL;
+        sv_coef = NULL;
+        rho = NULL;
+        probA = NULL;
+        probB = NULL;
+        label = NULL;
+        nSV = NULL;
+        free_sv = 0;
+    }
+
+    svm_model::svm_model (const svm_model& model) {
+        assert(false);
+    }
+
+    svm_model& svm_model::operator= (svm_model model) {
+        assert(false);
+    }
+
+    svm_model::~svm_model () {
+        if (SV != NULL) {
+            for (int i = 0; i < l; i++) {
+                delete[] SV[i];
+            }
+            delete SV;
+        }
+
+        if (sv_coef != NULL) {
+            for (int i = 0; i < l; i++) {
+                delete[] sv_coef[i];
+            }
+            delete sv_coef;
+        }
+
+        assert(false);
+        if (model.SV == NULL) {
+            this->SV = NULL;
+        }
+        else {
+            this->SV = new svm_node*[model.l];
+            for (int i = 0; i < model.l; i++) {
+                this->SV[i] = new svm_node[model.nr_class+1];
+                for (int j = 0; j < model.nr_class+1; j++) {
+                    this->SV[i][j] = model.SV[i][j];
+                }
+            }
+        }
+        
+        int no_binary_problems = (model.nr_class*(model.nr_class-1))/2;
+        
+        if (model.rho == NULL) {
+            this->rho = NULL;
+        }
+        else {
+            this->rho = new double[no_binary_problems];
+            for (int i = 0; i < no_binary_problems; i++) {
+                this->rho[i] = model.rho[i];
+            }
+        }
+
+        if (model.probA == NULL) {
+            this->probA = NULL;
+        }
+        else {
+            this->probA = new double[no_binary_problems];
+            for (int i = 0; i < no_binary_problems; i++) {
+                this->probA[i] = model.probA[i];
+            }
+        }
+
+        if (model.probB == NULL) {
+            this->probB = NULL;
+        }
+        else {
+            this->probB = new double[no_binary_problems];
+            for (int i = 0; i < no_binary_problems; i++) {
+                this->probB[i] = model.probB[i];
+            }
+        }
+
+        if (model.label == NULL) {
+            this->label = NULL;
+        }
+        else {
+            this->label = new int[model.nr_class];
+            for (int i = 0; i < model.nr_class; i++) {
+                this->label[i] = model.label[i];
+            }
+        }
+
+        if (model.nSV == NULL) {
+            this->nSV = NULL;
+        }
+        else {
+            this->nSV = new int[model.nr_class];
+            for (int i = 0; i < model.nr_class; i++) {
+                this->nSV[i] = model.nSV[i];
+            }
+        }
+    }
+
+    //---
+
+    svm_parameter::svm_parameter () {
+        svm_type = 0;
+        kernel_type = 2;
+        degree = 3;
+        gamma = 1.0;
+        coef0 = 0.0;
+
+        // used for training only
+        cache_size = 100;
+        eps = 0.001;
+        C = 1.0;
+        nr_weight = 0;
+        weight_label = NULL;
+        weight = NULL;
+        nu = 0.5;
+        p = 0.1;
+        shrinking = 1;
+        probability = 0;
+    }
+
+    svm_parameter::svm_parameter (const svm_parameter& param) {
+        this->svm_type = param.svm_type;
+        this->kernel_type = param.kernel_type;
+        this->degree = param.degree;
+        this->gamma = param.gamma;
+        this->coef0 = param.coef0;
+        this->cache_size = param.cache_size;
+        this->eps = param.eps;
+        this->C = param.C;
+        this->nr_weight = param.nr_weight;
+        this->nu = param.nu;
+        this->p = param.p;
+        this->shrinking = param.shrinking;
+        this->probability = param.probability;
+        
+        if (this->nr_weight > 0) {
+            if (param.weight_label == NULL) {
+                this->weight_label = NULL;
+            }
+            else {
+                this->weight_label = new int[this->nr_weight];
+                for (int i = 0; i < this->nr_weight; i++) {
+                    this->weight_label[i] = param.weight_label[i];
+                }
+            }
+
+            if (param.weight == NULL) {
+                this->weight = NULL;
+            }
+            else {
+                this->weight = new double[this->nr_weight];
+                for (int i = 0; i < this->nr_weight; i++) {
+                    this->weight[i] = param.weight[i];
+                }
+            }
+        }
+        else {
+            this->weight_label = NULL;
+            this->weight = NULL;
+        }
+    }
+
+    // TODO hacerlo con el copy-swap
+    svm_parameter& svm_parameter::operator= (svm_parameter param) {
+        this->svm_type = param.svm_type;
+        this->kernel_type = param.kernel_type;
+        this->degree = param.degree;
+        this->gamma = param.gamma;
+        this->coef0 = param.coef0;
+        this->cache_size = param.cache_size;
+        this->eps = param.eps;
+        this->C = param.C;
+        this->nr_weight = param.nr_weight;
+        this->nu = param.nu;
+        this->p = param.p;
+        this->shrinking = param.shrinking;
+        this->probability = param.probability;
+
+        if (this->nr_weight > 0) {
+            if (this->weight_label != NULL) {
+                delete[] this->weight_label;
+            }
+            if (this->weight != NULL) {
+                delete[] this->weight;
+            }
+
+            if (param.weight_label == NULL) {
+                this->weight_label = NULL;
+            }
+            else {
+                this->weight_label = new int[this->nr_weight];
+                for (int i = 0; i < this->nr_weight; i++) {
+                    this->weight_label[i] = param.weight_label[i];
+                }
+            }
+
+            if (param.weight == NULL) {
+                this->weight = NULL;
+            }
+            else {
+                this->weight = new double[this->nr_weight];
+                for (int i = 0; i < this->nr_weight; i++) {
+                    this->weight[i] = param.weight[i];
+                }
+            }
+        }
+        else {
+            this->weight_label = NULL;
+            this->weight = NULL;
+        }
+
+        return *this;
+    }
+
+    svm_parameter::~svm_parameter () {
+        if (this->nr_weight > 0) {
+            delete[] this->weight_label;
+            delete[] this->weight;
+        }
+    }
+    */
 }

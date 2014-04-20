@@ -10,10 +10,11 @@ using namespace std;
 using namespace abed;
 
 int main () {
-    StaticDataSet sds("or.ssv");
+    StaticDataSet sds("iris.ssv");
+    unsigned int d = sds.get_dimension();
+    unsigned int c = sds.get_no_classes();
 
-    SVM svm(2, 2);
-    svm.train(sds);
+    SVM svm(d, c);
     SVM svm2(svm);
 
     return 0;
