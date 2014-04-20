@@ -16,6 +16,8 @@ int main () {
 
     SVM svm(d, c);
     SVM svm2(svm);
+    SVM svm3(svm2);
+    svm3.train(sds);
 
     return 0;
 }

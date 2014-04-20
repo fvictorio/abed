@@ -34,7 +34,41 @@ namespace abed {
     }
 
     SVM::SVM (const SVM& svm) {
-        assert(false);
+        this->dimension = svm.dimension;
+        this->no_classes = svm.no_classes;
+        this->param = svm.param;
+        this->already_trained = svm.already_trained;
+
+        //TODO copiar param
+        this->param = svm.param;
+        if (svm.param.nr_weight > 0) {
+            this->param.weight_label = new int[svm.param.nr_weight];
+            this->param.weight = new double[svm.param.nr_weight];
+            for (int i = 0; i < svm.param.nr_weight; i++) {
+                this->param.weight_label[i] = svm.param.weight_label[i];
+                this->param.weight[i] = svm.param.weight[i];
+            }
+        }
+
+        //TODO copiar prob
+        if (svm.already_trained) {
+            this->prob.l = svm.prob.l;
+            this->prob.y = new double[svm.prob.l];
+            this->prob.x = new svm_node*[svm.prob.l];
+            for (int i = 0; i < svm.prob.l; i++) {
+                this->prob.y[i] = svm.prob.y[i];
+                this->prob.x[i] = new svm_node[svm.dimension+1];
+                for (unsigned int j = 0; j < svm.dimension+1; j++) {
+                    this->prob.x[i][j] = svm.prob.x[i][j];
+                }
+            }
+
+            //TODO copiar model
+            const char* filename = ".saved_model.tmp";
+            svm_save_model(filename, svm.model);
+            this->model = svm_load_model(filename);
+        }
+
     }
 
     SVM& SVM::operator= (SVM svm) {
@@ -42,9 +76,11 @@ namespace abed {
     }
 
     SVM::~SVM () {
-        svm_free_and_destroy_model(&model);
         svm_destroy_param(&param);
-        free_svm_problem(prob);
+        if (already_trained) {
+            svm_free_and_destroy_model(&model);
+            free_svm_problem(prob);
+        }
     }
 
     void SVM::initialize (unsigned int seed) {
