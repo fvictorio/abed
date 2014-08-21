@@ -10,14 +10,28 @@ using namespace std;
 using namespace abed;
 
 int main () {
-    StaticDataSet sds("iris.ssv");
+    StaticDataSet sds("yeast.ssv");
     unsigned int d = sds.get_dimension();
     unsigned int c = sds.get_no_classes();
 
-    SVM svm(d, c);
-    SVM svm2(svm);
-    SVM svm3(svm2);
-    svm3.train(sds);
+    vector<unsigned int> hl;
+    hl.push_back(d);
+    Bagging bagging(d, c);
+    bagging.add_classifier(new SVM(d, c));
+    bagging.add_classifier(new SVM(d, c));
+    bagging.add_classifier(new SVM(d, c));
+    bagging.add_classifier(new SVM(d, c));
+    bagging.add_classifier(new MLP(d, c, hl));
+    bagging.add_classifier(new MLP(d, c, hl));
+    bagging.add_classifier(new MLP(d, c, hl));
+    bagging.add_classifier(new MLP(d, c, hl));
+
+    Tester tester(&bagging, &sds);
+    
+    //tester.hold_out(0.1);
+    tester.resubstitution(10);
+
+    cout << tester.get_percentage() << endl;
 
     return 0;
 }

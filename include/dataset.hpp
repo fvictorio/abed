@@ -21,6 +21,7 @@ namespace abed {
         enum Type { STATIC, DYNAMIC };
 
         DataPoint () { labeled = false; }
+        virtual ~DataPoint () {}
         double diff (double y) const { return label - y; }
         unsigned int get_label () const { return label; }
         void set_label (int l) { labeled = true; label = l; }
