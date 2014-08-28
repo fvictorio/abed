@@ -6,7 +6,8 @@
 
 namespace abed {
 
-    //! Abstract class that converts datasets and datapoints.
+    //! \brief Abstract class that converts \ref DataSet "datasets" 
+    //! and \ref DataPoint "datapoints".
     //
     //! The different derived classes of DataConverter provide
     //! alternative ways of transforming static data into

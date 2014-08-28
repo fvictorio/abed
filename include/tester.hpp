@@ -12,11 +12,11 @@
 
 namespace abed {
 
-    //! Tester class.
+    //! %Tester class.
     //
-    //! Tester implements functions that,
-    //! given a classifier and a
-    //! dataset, returns statistics about
+    //! %Tester implements functions that,
+    //! given a \ref Classifier "classifier" and a
+    //! \ref DataSet "dataset", returns statistics about
     //! how good the predictions of the
     //! classifier are.
     //!

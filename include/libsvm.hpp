@@ -66,7 +66,7 @@ namespace abed {
         int *label;		/* label of each class (label[k]) */
         int *nSV;		/* number of SVs for each class (nSV[k]) */
                     /* nSV[0] + nSV[1] + ... + nSV[k-1] = l */
-        /* XXX */
+
         int free_sv;		/* 1 if svm_model is created by svm_load_model*/
                     /* 0 if svm_model is created by svm_train */
     };

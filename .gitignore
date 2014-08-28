@@ -27,3 +27,6 @@ dox.log
 notas.txt
 todo.txt
 journal.txt
+cpplint.py
+cscope.out
+todo_doc.txt

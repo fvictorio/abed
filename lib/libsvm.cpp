@@ -425,7 +425,7 @@ namespace abed {
         int *active_set;
         double *G_bar;		// gradient, if we treat free variables as 0
         int l;
-        bool unshrink;	// XXX
+        bool unshrink;
 
         double get_C(int i)
         {
@@ -2079,7 +2079,7 @@ namespace abed {
     {
         svm_model *model = Malloc(svm_model,1);
         model->param = *param;
-        model->free_sv = 0;	// XXX
+        model->free_sv = 0;
 
         if(param->svm_type == ONE_CLASS ||
            param->svm_type == EPSILON_SVR ||
@@ -2926,7 +2926,7 @@ namespace abed {
         if (ferror(fp) != 0 || fclose(fp) != 0)
             return NULL;
 
-        model->free_sv = 1;	// XXX
+        model->free_sv = 1;
         return model;
     }
 

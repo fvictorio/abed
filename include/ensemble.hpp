@@ -5,6 +5,8 @@
 #include "classifier.hpp"
 
 namespace abed {
+    
+    //! Abstract class for ensembles of classifiers
 
     class EnsembleClassifier : public Classifier {
     public:

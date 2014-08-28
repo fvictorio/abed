@@ -25,6 +25,7 @@ namespace abed {
     double StaticClassifier::train (const DynamicDataSet& dds, 
                                     double MAX_ERROR,
                                     unsigned int MAX_IT) {
+        assert(false);
         return 0.0;
     }
 

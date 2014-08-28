@@ -7,14 +7,14 @@
 
 namespace abed {
 
-    //! Multilayer Perceptron (MLP) implementation.
+    using std::vector;
+
+    //! Multilayer %Perceptron (%MLP) implementation.
     //
     //! Feedforward artificial neural network used for
     //! classifying data 
     //! that isn't linearly separable, trained
     //! with the backpropagation algorithm.
-
-    using std::vector;
 
     class MLP : public StaticClassifier {
     public:

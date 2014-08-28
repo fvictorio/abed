@@ -6,6 +6,8 @@
 
 namespace abed {
 
+    //! \brief Support Vector Machine implementation
+
     class SVM : public StaticClassifier {
     public:
         // Constructor por defecto que asigna parametros estandar

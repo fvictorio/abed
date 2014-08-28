@@ -11,7 +11,7 @@ namespace abed {
 
     enum DATA_FMT {CSV, SSV, PO};
     
-    //! Abstract datapoint class.
+    //! Abstract datapoint class
     //
     //! DataPoint abstracts the StaticDataPoint and
     //! DynamicDataPoint classes.
@@ -32,7 +32,7 @@ namespace abed {
         bool labeled;
     };
 
-    //! A point in R^d.
+    //! A point in R^d
     //
     //! A static datapoint is a point in the R^d space, that is,
     //! d real values.
@@ -49,7 +49,7 @@ namespace abed {
         std::vector<double> features;
     };
 
-    //! A sucession of one or more points in R^d.
+    //! A sucession of one or more points in R^d
     //
     //! A dynamic datapoint is a sucession of R^d points
     //! that are not necessarily independent (and usually
@@ -65,7 +65,7 @@ namespace abed {
         std::vector<std::vector<double> > features;
     };
 
-    //! Abstract dataset class.
+    //! Abstract dataset class
     
     class DataSet {
     public:
@@ -87,7 +87,7 @@ namespace abed {
         unsigned int no_classes;
     };
 
-    //! Collection of StaticDataPoint's.
+    //! Collection of \ref StaticDataPoint "StaticDataPoints"
     //
     //! A StaticDataSet is created from some input stream
     //! properly formatted. This can be an ifstream,
@@ -124,7 +124,7 @@ namespace abed {
         std::vector<StaticDataPoint> data_points;
     };
 
-    //! Collection of DynamicDataPoints.
+    //! Collection of \ref DynamicDataPoint "DynamicDataPoints"
     //
     //! A StaticDataSet is created from some input stream
     //! properly formatted. This can be an ifstream,

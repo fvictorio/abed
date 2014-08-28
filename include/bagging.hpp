@@ -6,6 +6,8 @@
 
 namespace abed {
 
+    //! Implementation of the Bootstrap Aggregating algorithm
+
     class Bagging : public EnsembleClassifier {
     public:
         Bagging (int d, int c) : dimension(d), no_classes(c) {}
