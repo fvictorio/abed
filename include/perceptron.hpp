@@ -33,6 +33,6 @@ namespace abed {
         std::vector<double> weights;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_PERCEPTRON_HPP */

@@ -41,7 +41,7 @@ namespace abed {
     friend class StaticDataSet;
     public:
         StaticDataPoint () {}
-        StaticDataPoint (const std::vector<double>& f) : features(f) {}
+        explicit StaticDataPoint (const std::vector<double>& f) : features(f) {}
         StaticDataPoint (const std::vector<double>& f, int l) : features(f) { label = l; }
         const double& operator[] (unsigned int i) const { return features[i]; };
         virtual Type get_type () const { return STATIC; }
@@ -58,7 +58,7 @@ namespace abed {
     class DynamicDataPoint : public DataPoint {
     public:
         DynamicDataPoint () {}
-        DynamicDataPoint (const std::vector<std::vector<double> >& f) : features(f) {}
+        explicit DynamicDataPoint (const std::vector<std::vector<double> >& f) : features(f) {}
         const std::vector<double>& operator[] (unsigned int i) const { return features[i]; };
         virtual Type get_type () const { return DYNAMIC; }
     private:
@@ -97,10 +97,10 @@ namespace abed {
     class StaticDataSet : public DataSet {
     public:
         StaticDataSet () {}
-        StaticDataSet (std::istream& is, DATA_FMT data_fmt = SSV) {
+        explicit StaticDataSet (std::istream& is, DATA_FMT data_fmt = SSV) {
             this->read(is, data_fmt);
         }
-        StaticDataSet (const char*, DATA_FMT = SSV);
+        explicit StaticDataSet (const char*, DATA_FMT = SSV);
         virtual unsigned int size () const { return data_points.size(); }
         const StaticDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
         StaticDataPoint& operator[] (unsigned int i) { return data_points[i]; }
@@ -134,10 +134,10 @@ namespace abed {
     class DynamicDataSet : public DataSet {
     public:
         DynamicDataSet () {}
-        DynamicDataSet (std::istream& is, DATA_FMT data_fmt = PO) {
+        explicit DynamicDataSet (std::istream& is, DATA_FMT data_fmt = PO) {
             this->read(is, data_fmt);
         }
-        DynamicDataSet (const char*, DATA_FMT = PO);
+        explicit DynamicDataSet (const char*, DATA_FMT = PO);
         virtual unsigned int size () const { return data_points.size(); }
         const DynamicDataPoint& operator[] (unsigned int i) const { return data_points[i]; }
         DynamicDataPoint& operator[] (unsigned int i) { return data_points[i]; }
@@ -161,6 +161,6 @@ namespace abed {
         std::vector<DynamicDataPoint> data_points;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_DATASET_HPP */

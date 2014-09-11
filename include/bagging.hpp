@@ -30,7 +30,7 @@ namespace abed {
         unsigned int dimension, no_classes;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_BAGGING_HPP */
 

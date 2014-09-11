@@ -48,6 +48,6 @@ namespace abed {
         DataSet* data_set;
         double percentage;
     };
-}
+} // namespace abed
 
 #endif /* ABED_TESTER_HPP */

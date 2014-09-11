@@ -98,6 +98,6 @@ namespace abed {
     #ifdef __cplusplus
     }
     #endif
-}
+} // namespace abed
 
 #endif /* _LIBSVM_H */

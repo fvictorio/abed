@@ -1,3 +1,5 @@
+.gitignore
+
 # Compiled Object files
 *.slo
 *.lo
@@ -23,10 +25,3 @@ doc
 dox.log
 
 /*ssv
-
-notas.txt
-todo.txt
-journal.txt
-cpplint.py
-cscope.out
-todo_doc.txt

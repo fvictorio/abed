@@ -10,9 +10,9 @@ namespace abed {
 
     class EnsembleClassifier : public Classifier {
     public:
-        using Classifier::train; // Effective C++ Item 33
-        using Classifier::classify; // Effective C++ Item 33
-        using Classifier::predict_label; // Effective C++ Item 33
+        using Classifier::train;
+        using Classifier::classify;
+        using Classifier::predict_label;
 
         EnsembleClassifier () {}
         EnsembleClassifier (const EnsembleClassifier& ec) {            
@@ -39,6 +39,7 @@ namespace abed {
             classifiers.push_back(classifier);
         }
         virtual void remove_classifier (unsigned int i) {
+            // TODO Check that 0 <= i < n
             delete classifiers[i];
             classifiers.erase(classifiers.begin() + i);
         }
@@ -46,6 +47,6 @@ namespace abed {
         std::vector<Classifier*> classifiers;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_ENSEMBLE_HPP */

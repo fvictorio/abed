@@ -44,6 +44,6 @@ namespace abed {
         bool already_trained;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_SVM_HPP */

@@ -48,6 +48,6 @@ namespace abed {
         vector<vector<double> > error_terms;
     };
 
-}
+} // namespace abed
 
 #endif /* ABED_MLP_HPP */

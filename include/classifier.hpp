@@ -51,9 +51,9 @@ namespace abed {
 
     class StaticClassifier : public Classifier {
     public:
-        using Classifier::train; // Effective C++ Item 33
-        using Classifier::classify; // Effective C++ Item 33
-        using Classifier::predict_label; // Effective C++ Item 33
+        using Classifier::train;
+        using Classifier::classify;
+        using Classifier::predict_label;
 
         StaticClassifier () { data_converter = new TrivialDataConverter; }
         virtual ~StaticClassifier () { delete data_converter; }
@@ -66,6 +66,6 @@ namespace abed {
     protected:
         DataConverter *data_converter;
     };
-}
+} // namespace abed
 
 #endif /* ABED_CLASSIFIER_HPP */

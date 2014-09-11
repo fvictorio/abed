@@ -37,6 +37,6 @@ namespace abed {
         }
     };
 
-}
+} // namespace abed
 
 #endif
