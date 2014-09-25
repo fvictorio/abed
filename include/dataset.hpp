@@ -78,6 +78,7 @@ namespace abed {
         virtual DataSet* clone () const = 0;
         virtual DataSet* indexed_clone (const std::vector<unsigned int>&) const = 0;
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const = 0;
+        virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const = 0;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const = 0;
         virtual Type get_type () const = 0;
         virtual unsigned int get_dimension () const { return dimension; }
@@ -116,6 +117,7 @@ namespace abed {
         }
         virtual DataSet* indexed_clone (const std::vector<unsigned int>&) const;
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const;
+        virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const;
         virtual Type get_type () const { return STATIC; }
     protected:
@@ -153,6 +155,7 @@ namespace abed {
         }
         virtual DataSet* indexed_clone (const std::vector<unsigned int>&) const;
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const;
+        virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const;
         virtual Type get_type () const { return DYNAMIC; }
     protected:

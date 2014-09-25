@@ -1,6 +1,6 @@
 CC = g++
 LINKER = g++
-CFLAGS = -c -g -O0 -fno-inline -Wall
+CFLAGS = -c -g -Og -fno-inline -Wall -Wfatal-errors -Wno-unused-result
 LFLAGS = 
 
 INC_DIR = include
@@ -17,6 +17,8 @@ CPP_FILES = $(wildcard $(LIB_DIR)/*$(CPP_EXT))
 INC_FILES = $(wildcard $(INC_DIR)/*$(INC_EXT))
 OBJ_FILES  = $(subst $(LIB_DIR)/,$(OBJ_DIR)/,$(subst $(CPP_EXT),$(OBJ_EXT),$(CPP_FILES)))
 
+TEST_NAME = main
+
 .PHONY: all depend clean test debug
 
 all : $(OBJ_FILES)
@@ -25,15 +27,15 @@ debug :
 	@echo $(OBJ_FILES)
 
 test : $(OBJ_FILES)
-	$(CC) $(CFLAGS) test/main.cpp -o $(OBJ_DIR)/main.o
-	$(LINKER) $(LFLAGS) $(OBJ_DIR)/main.o $(OBJ_FILES) -o bin/main
-	bin/main
+	$(CC) $(CFLAGS) test/$(TEST_NAME).cpp -o $(OBJ_DIR)/$(TEST_NAME).o
+	$(LINKER) $(LFLAGS) $(OBJ_DIR)/$(TEST_NAME).o $(OBJ_FILES) -o bin/$(TEST_NAME)
+	bin/$(TEST_NAME)
 
 $(OBJ_DIR)/%$(OBJ_EXT) : $(LIB_DIR)/%$(CPP_EXT)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean :
-	rm $(OBJ_DIR)/*
+	-rm $(OBJ_DIR)/*
 
 depend :
 	[ ! -f ./.depend ] || rm ./.depend

@@ -1,3 +1,7 @@
+obj/adaboost.o: lib/adaboost.cpp lib/../include/adaboost.hpp \
+ lib/../include/ensemble.hpp lib/../include/classifier.hpp \
+ lib/../include/dataset.hpp lib/../include/dataconverter.hpp \
+ lib/../include/dataset.hpp lib/../include/utilities.hpp
 obj/bagging.o: lib/bagging.cpp lib/../include/bagging.hpp \
  lib/../include/ensemble.hpp lib/../include/classifier.hpp \
  lib/../include/dataset.hpp lib/../include/dataconverter.hpp
@@ -22,3 +26,4 @@ obj/svm.o: lib/svm.cpp lib/../include/svm.hpp \
 obj/tester.o: lib/tester.cpp lib/../include/dataset.hpp \
  lib/../include/tester.hpp lib/../include/classifier.hpp \
  lib/../include/dataset.hpp lib/../include/dataconverter.hpp
+obj/utilities.o: lib/utilities.cpp lib/../include/utilities.hpp

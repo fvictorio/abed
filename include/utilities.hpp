@@ -19,6 +19,8 @@ namespace abed {
     inline double sigmoid (double x) {
         return 1.0 / (1.0 + exp(-x));
     }
+
+    void normalize_distribution(std::vector<double>& d);
 } // namespace abed
 
 #endif /* ABED_UTILITIES_HPP */

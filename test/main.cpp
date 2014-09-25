@@ -1,75 +1,63 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include "../include/adaboost.hpp"
+#include "../include/bagging.hpp"
 #include "../include/dataset.hpp"
 #include "../include/mlp.hpp"
-#include "../include/tester.hpp"
 #include "../include/perceptron.hpp"
-#include "../include/bagging.hpp"
 #include "../include/svm.hpp"
+#include "../include/tester.hpp"
 using namespace std;
 using namespace abed;
 
-int main () {
-    StaticDataSet sds("yeast.ssv");
-    unsigned int d = sds.get_dimension();
-    unsigned int c = sds.get_no_classes();
+int main (int argc, char** argv) {
+    string dataset = "iris.ssv";
+    string classifier_type = "MLP";
 
-    vector<unsigned int> hl;
-    hl.push_back(d);
-    Bagging bagging(d, c);
-    bagging.add_classifier(new SVM(d, c));
-    bagging.add_classifier(new SVM(d, c));
-    bagging.add_classifier(new SVM(d, c));
-    bagging.add_classifier(new SVM(d, c));
-    bagging.add_classifier(new MLP(d, c, hl));
-    bagging.add_classifier(new MLP(d, c, hl));
-    bagging.add_classifier(new MLP(d, c, hl));
-    bagging.add_classifier(new MLP(d, c, hl));
+    if (argc >= 2) {
+        classifier_type = argv[1];
+    }
+    if (argc >= 3) {
+        dataset = argv[2];
+    }
 
-    Tester tester(&bagging, &sds);
+    StaticDataSet sds(dataset.c_str());
+    Classifier *classifier;
+
+    if (classifier_type == "MLP") {
+        unsigned int d = sds.get_dimension();
+        unsigned int c = sds.get_no_classes();
+
+        vector<unsigned int> hl;
+        hl.push_back(d);
+        hl.push_back(d);
+        classifier = new MLP(d, c, hl);
+    }
+    else if (classifier_type == "ADABOOST") {
+        unsigned int d = sds.get_dimension();
+        unsigned int c = sds.get_no_classes();
+
+        vector<unsigned int> hl;
+        hl.push_back(d);
+        EnsembleClassifier *adaboost = new AdaBoost(d, c);
+        adaboost->add_classifier(new MLP(d, c, hl));
+        adaboost->add_classifier(new MLP(d, c, hl));
+        adaboost->add_classifier(new MLP(d, c, hl));
+        adaboost->add_classifier(new MLP(d, c, hl));
+        adaboost->add_classifier(new MLP(d, c, hl));
+        classifier = static_cast<Classifier*>(adaboost);
+    }
+    else {
+        printf("Unknown classifier\n");
+        return 1;
+    }
+
+    Tester tester(classifier, &sds);
     
-    //tester.hold_out(0.1);
-    tester.resubstitution(10);
+    tester.hold_out(0.1);
 
-    cout << tester.get_percentage() << endl;
-
-    return 0;
-}
-
-/*
-int main () {
-    //srand(time(NULL));
-    srand(42); // 0.395
-
-    const double MAX_ERROR = 0.05;
-    const unsigned int MAX_IT = 100;
-    const unsigned int NO_FOLDS = 10;
-    StaticDataSet sds("iris.ssv");
-    const unsigned int dimension = sds.get_dimension();
-    const unsigned int no_classes = sds.get_no_classes();
-
-    svm_parameter param;
-    param.svm_type = C_SVC;
-    param.kernel_type = LINEAR;
-    param.degree = 3;
-    param.gamma = 1.0 / dimension;
-    param.coef0 = 0.0;
-    param.cache_size = 100;
-    param.eps = 0.001;
-    param.C = 1.0;
-    param.nr_weight = 0;
-    param.nu = 0.5;
-    param.p = 0.1;
-    param.shrinking = 1;
-    param.probability = 0;
-    SVM svm(dimension, no_classes, param);
-    //SVM svm2 = svm;
-
-    Tester tester(&svm, &sds);
-    tester.hold_out(0.2, MAX_ERROR, MAX_IT);
-
-    cout << tester.get_percentage() << endl;
+    printf("%f\n", tester.get_percentage());
 
     return 0;
 }
-*/

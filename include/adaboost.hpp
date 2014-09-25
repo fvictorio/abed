@@ -1,19 +1,19 @@
-#ifndef ABED_BAGGING_HPP
-#define ABED_BAGGING_HPP
+#ifndef ABED_ADABOOST_HPP
+#define ABED_ADABOOST_HPP
 
-#include <cassert>
+#include <vector>
 #include "ensemble.hpp"
 
 namespace abed {
 
-    //! Implementation of the Bootstrap Aggregating algorithm
+    using std::vector;
 
-    class Bagging : public EnsembleClassifier {
+    class AdaBoost : public EnsembleClassifier {
     public:
-        Bagging (int d, int c) : dimension(d), no_classes(c) {}
+        AdaBoost (int d, int c) : dimension(d), no_classes(c) {}
         virtual void initialize (unsigned int seed = UINT_MAX);
         virtual Classifier* clone () const {
-            return new Bagging(*this);
+            return new AdaBoost(*this);
         }
 
         virtual double train (const StaticDataSet&, 
@@ -29,8 +29,9 @@ namespace abed {
     private:
         unsigned int dimension;
         unsigned int no_classes;
-    };
 
+        vector<double> normalized_error;
+    };
 } // namespace abed
 
-#endif /* ABED_BAGGING_HPP */
+#endif /* ABED_ADABOOST_HPP */

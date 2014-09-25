@@ -75,4 +75,4 @@ namespace abed {
         vector<unsigned int>::iterator voted = std::max_element(votes.begin(), votes.end());
         return voted - votes.begin();
     }
-}
+} // namespace abed
