@@ -1,9 +1,10 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <limits>
+#include <cassert>
 #include <climits>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <string>
+#include <vector>
 #include "../include/dataset.hpp"
 #include "../include/utilities.hpp"
 
@@ -62,7 +63,7 @@ namespace abed {
     }
 
     DataSet* StaticDataSet::indexed_clone (const std::vector<unsigned int>& indexes) const {
-        StaticDataSet *indexed_dataset = new StaticDataSet;
+        StaticDataSet *indexed_dataset = new StaticDataSet();
         
         indexed_dataset->dimension = this->dimension;
         indexed_dataset->no_classes = this->no_classes;
@@ -75,8 +76,8 @@ namespace abed {
     }
 
     void StaticDataSet::slice (unsigned int a, unsigned int b, DataSet*& sliced_ds, DataSet*& remaining_ds) const {
-        StaticDataSet* sliced_sds = new StaticDataSet;
-        StaticDataSet* remaining_sds = new StaticDataSet;
+        StaticDataSet* sliced_sds = new StaticDataSet();
+        StaticDataSet* remaining_sds = new StaticDataSet();
 
         sliced_sds->dimension = this->dimension;
         sliced_sds->no_classes = this->no_classes;
@@ -98,7 +99,7 @@ namespace abed {
     }
 
     DataSet* DynamicDataSet::indexed_clone (const std::vector<unsigned int>& indexes) const {
-        DynamicDataSet *indexed_dataset = new DynamicDataSet;
+        DynamicDataSet *indexed_dataset = new DynamicDataSet();
 
         indexed_dataset->dimension = this->dimension;
         indexed_dataset->no_classes = this->no_classes;
@@ -110,33 +111,63 @@ namespace abed {
         return indexed_dataset;
     }
 
-    DataSet* StaticDataSet::bootstrap (unsigned int n) const {
-        if (n == UINT_MAX) n = data_points.size();
+    DataSet* StaticDataSet::bootstrap (unsigned int sample_size) const {
+        if (sample_size == UINT_MAX) {
+            sample_size = data_points.size();
+        }
         
-        StaticDataSet* bootstrapped_ds = new StaticDataSet;
+        StaticDataSet* bootstrapped_ds = new StaticDataSet();
         bootstrapped_ds->dimension = this->dimension;
         bootstrapped_ds->no_classes = this->no_classes;
 
         unsigned int idx;
-        for (unsigned int i = 0; i < n; i++) {
+        for (unsigned int i = 0; i < sample_size; i++) {
             //TODO randomness
-            idx = static_cast<unsigned int>(randrange(0.0, data_points.size()));
             //TODO there is a slight chance of getting idx == data_points.size() that
             //I should avoid somehow (an epsilon?)
+            idx = static_cast<unsigned int>(randrange(0.0, data_points.size()));
+            //TODO avoid push_back
             bootstrapped_ds->data_points.push_back(this->data_points[idx]);
         }
 
         return bootstrapped_ds;
     }
 
-    DataSet* DynamicDataSet::bootstrap (unsigned int n) const {
-        if (n == UINT_MAX) n = data_points.size();
-        
-        DynamicDataSet* bootstrapped_ds = new DynamicDataSet;
+    DataSet* StaticDataSet::bootstrap (const std::vector<double>& distribution, unsigned int sample_size) const {
+        // TODO check dataset isn't empty
+
+        if (sample_size == UINT_MAX) {
+            sample_size = data_points.size();
+        }
+
+        StaticDataSet* bootstrapped_ds = new StaticDataSet();
         bootstrapped_ds->dimension = this->dimension;
         bootstrapped_ds->no_classes = this->no_classes;
 
-        for (unsigned int i = 0; i < n; i++) {
+        std::vector<double> accum(sample_size);
+        accum[0] = distribution[0];
+        for (unsigned int i = 1; i < sample_size; i++) {
+            accum[i] = accum[i-1] + distribution[i];
+        }
+
+        for (unsigned int i = 0; i < sample_size; i++) {
+            double x = randrange();
+            std::vector<double>::iterator pos = lower_bound(accum.begin(), accum.end(), x);
+            unsigned int idx = pos - accum.begin();
+            bootstrapped_ds->data_points.push_back(this->data_points[idx]);
+        }
+
+        return bootstrapped_ds;
+    }
+
+    DataSet* DynamicDataSet::bootstrap (unsigned int sample_size) const {
+        if (sample_size == UINT_MAX) sample_size = data_points.size();
+        
+        DynamicDataSet* bootstrapped_ds = new DynamicDataSet();
+        bootstrapped_ds->dimension = this->dimension;
+        bootstrapped_ds->no_classes = this->no_classes;
+
+        for (unsigned int i = 0; i < sample_size; i++) {
             //TODO randomness
             unsigned int idx = static_cast<unsigned int>(randrange(0.0, data_points.size()));
             bootstrapped_ds->data_points.push_back(this->data_points[idx]);
@@ -145,9 +176,14 @@ namespace abed {
         return bootstrapped_ds;
     }
 
+    DataSet* DynamicDataSet::bootstrap (const std::vector<double>& distribution, unsigned int sample_size) const {
+        assert(false);
+        return new DynamicDataSet();
+    }
+
     void DynamicDataSet::slice (unsigned int a, unsigned int b, DataSet*& sliced_ds, DataSet*& remaining_ds) const {
-        DynamicDataSet* sliced_dds = new DynamicDataSet; // TODO necesario?
-        DynamicDataSet* remaining_dds = new DynamicDataSet;
+        DynamicDataSet* sliced_dds = new DynamicDataSet(); // TODO necesario?
+        DynamicDataSet* remaining_dds = new DynamicDataSet();
 
         sliced_dds->dimension = this->dimension;
         sliced_dds->no_classes = this->no_classes;

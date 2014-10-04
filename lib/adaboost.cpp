@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <stdexcept>
@@ -43,7 +44,7 @@ namespace abed {
         for (unsigned int b = 0; b < B; b++) {
             DataSet* bootstrapped = sds.bootstrap(distribution, N);
 
-            mean_train_error = classifiers[b]->train(bootstrapped, MAX_ERROR, MAX_IT);
+            mean_train_error += classifiers[b]->train(bootstrapped, MAX_ERROR, MAX_IT);
 
             vector<unsigned int> predicted_labels(N);
             double classifier_error = 0.0;
@@ -80,10 +81,20 @@ namespace abed {
         for (unsigned int i = 0; i < classifiers.size(); i++) {
             unsigned int vote = classifiers[i]->predict_label(sdp);
             assert(vote >= 0 && vote < no_classes);
-            votes[vote] += 1.0 / std::log(normalized_error[i]);
+            votes[vote] += std::log(1.0 / normalized_error[i]);
         }
         
         vector<double>::iterator voted = std::max_element(votes.begin(), votes.end());
         return voted - votes.begin();
+    }
+
+    double AdaBoost::train (const DynamicDataSet& sds, double MAX_ERROR, unsigned int MAX_IT) {
+        assert(false);
+        return 0.0;
+    }
+
+    unsigned int AdaBoost::predict_label (const DynamicDataPoint& sdp) const {
+        assert(false);
+        return 0;
     }
 } // namespace abed

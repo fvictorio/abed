@@ -20,6 +20,7 @@ namespace abed {
     void Tester::hold_out (double p, double MAX_ERROR,
                              unsigned int MAX_IT) {
         classifier->initialize();
+        // TODO Check 'p' value
         unsigned int test_size = static_cast<unsigned int>(p * data_set->size());
 
         std::vector<unsigned int> train_indexes, test_indexes;
