@@ -122,7 +122,6 @@ namespace abed {
 
         unsigned int idx;
         for (unsigned int i = 0; i < sample_size; i++) {
-            //TODO randomness
             //TODO there is a slight chance of getting idx == data_points.size() that
             //I should avoid somehow (an epsilon?)
             idx = static_cast<unsigned int>(randrange(0.0, data_points.size()));

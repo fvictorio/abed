@@ -1,6 +1,6 @@
 CC = g++
 LINKER = g++
-CFLAGS = -c -g -Og -fno-inline -Wall -Wfatal-errors -Wno-unused-result
+CFLAGS = -c -g -O2 -fno-inline -Wall -Wfatal-errors -Wno-unused-result
 LFLAGS = 
 
 INC_DIR = include

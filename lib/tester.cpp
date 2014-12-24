@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include "../include/dataset.hpp"
 #include "../include/tester.hpp"
@@ -20,8 +21,12 @@ namespace abed {
     void Tester::hold_out (double p, double MAX_ERROR,
                              unsigned int MAX_IT) {
         classifier->initialize();
+
         // TODO Check 'p' value
         unsigned int test_size = static_cast<unsigned int>(p * data_set->size());
+        
+        // TODO I shouldn't modify the pointed dataset
+        data_set->shuffle();
 
         std::vector<unsigned int> train_indexes, test_indexes;
         unsigned int i;

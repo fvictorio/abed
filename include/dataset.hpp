@@ -1,11 +1,12 @@
 #ifndef ABED_DATASET_HPP
 #define ABED_DATASET_HPP
 
-#include <vector>
-#include <istream>
+#include <algorithm>
+#include <climits>
 #include <fstream>
 #include <iostream>
-#include <climits>
+#include <istream>
+#include <vector>
 
 namespace abed {
 
@@ -80,6 +81,7 @@ namespace abed {
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const = 0;
         virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const = 0;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const = 0;
+        virtual void shuffle () = 0;
         virtual Type get_type () const = 0;
         virtual unsigned int get_dimension () const { return dimension; }
         virtual unsigned int get_no_classes () const { return no_classes; }
@@ -119,6 +121,12 @@ namespace abed {
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const;
         virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const;
+        // TODO Capaz puedo hacer esto en DataSet, si ademas implemento un metodo templatizado
+        // que devuelva un vector<T> con la estructura utilizada (a lo... no me acuerdo el nombre
+        // del patron).
+        virtual void shuffle () {
+            random_shuffle(data_points.begin(), data_points.end());
+        }
         virtual Type get_type () const { return STATIC; }
     protected:
         void read (std::istream&, DATA_FMT);
@@ -157,6 +165,9 @@ namespace abed {
         virtual DataSet* bootstrap (unsigned int n = UINT_MAX) const;
         virtual DataSet* bootstrap (const std::vector<double>& distribution, unsigned int n = UINT_MAX) const;
         virtual void slice (unsigned int a, unsigned int b, DataSet*&, DataSet*&) const;
+        virtual void shuffle () {
+            random_shuffle(data_points.begin(), data_points.end());
+        }
         virtual Type get_type () const { return DYNAMIC; }
     protected:
         void read (std::istream&, DATA_FMT);
