@@ -27,22 +27,26 @@ neurons.
     StaticDataSet sds("iris.ssv");
 
     // Create the MLP
-    vector<unsigned int> hidden_layers;
-    hidden_layers.push_back(3);
-    hidden_layers.push_back(3);
+    vector<unsigned int> hidden_layers(2);
+    hidden_layers[0] = 3;
+    hidden_layers[1] = 3;
 
-    // The data dimension is 4
-    // The number of possible classes is 3
-    MLP mlp(4, 3, hidden_layers);
+    unsigned int input_dimension = 4; // dimension of each data point
+    unsigned int no_classes = 3; // number of possible classes
+    MLP mlp(input_dimension, no_classes, hidden_layers);
 
     // Train the MLP
     mlp.train(sds);
 
-    // Output the predicted label for each data point
+    // Compute the percentage of success
+    unsigned int no_correct = 0;
     for (unsigned int i = 0; i < sds.size(); i++) {
         unsigned int predicted_label = mlp.predict_label(sds[i]);
-        cout << predicted_label << endl;
+        if (predicted_label == sds[i].get_label()) {
+            no_correct++;
+        }
     }
+    cout << static_cast<double>(no_correct) / sds.size() << endl;
 
 This example, of course, overestimates the performance of the MLP, by testing
 and training it with the same data. abed provides a `Tester` class for doing
