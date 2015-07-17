@@ -117,6 +117,7 @@ namespace abed {
                             delta_weights[i][j][k] = delta;
                             weights[i][j][k] += delta;
                         }
+                        // Bias
                         delta = learning_rate * error_terms[i][j];
                         delta += momentum * delta_weights[i][j][k];
                         delta_weights[i][j][k] = delta;

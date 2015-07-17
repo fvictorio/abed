@@ -16,6 +16,7 @@
 
 # Binaries
 bin
+*.out
 
 # Vim
 *swp

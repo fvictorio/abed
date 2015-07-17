@@ -43,6 +43,7 @@ namespace abed {
         double weights_range;
         unsigned int no_layers;
         vector<unsigned int> layers;
+        // TODO explain each one of the three indices
         vector<vector<vector<double> > > weights, delta_weights;
         mutable vector<vector<double> > outputs;
         vector<vector<double> > error_terms;
